@@ -1,0 +1,9 @@
+# What the app needs on Streamlit Community Cloud; choose Python 3.12 or later there. The app
+# imports the model from src/ directly, so the package itself does not have to be installed.
+# The versions are pinned to a set the tests pass with, so that a new release can never change
+# the deployed app unseen: Dependabot proposes updates, and CI tests this exact set on each one.
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.6
+streamlit==1.64.0
+altair==6.3.0

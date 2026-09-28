@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "battery-cell-lab"
+version = "0.1.0"
+description = "An equivalent circuit model of the LG 18650HG2 lithium-ion cell, identified from McMaster University test data and validated on 63 drive-cycle tests from -20 to 40 degC"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ömer Faruk Şenol" }]
+requires-python = ">=3.10"
+dependencies = ["numpy>=2.2", "scipy>=1.15"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.optional-dependencies]
+app = ["streamlit>=1.64", "altair>=6.2", "pandas>=2.3"]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "pandas-stubs",
+    "scipy-stubs",
+    "streamlit>=1.64",
+    "altair>=6.2",
+    "pandas>=2.3",
+    "matplotlib>=3.10.9",
+]
+
+[project.urls]
+Homepage = "https://github.com/zero705/battery-cell-lab"
+Issues = "https://github.com/zero705/battery-cell-lab/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-ra --strict-markers"
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+source = ["celllab"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 95
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "PL", "N", "S", "C4", "PT", "RET"]
+ignore = ["PLR0913", "PLR2004"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "PLR2004"]
+
+[tool.mypy]
+strict = true
+files = ["src", "tools", "tests", "streamlit_app.py"]

@@ -1,0 +1,35 @@
+# Raw test data and source documents: tools/fetch_dataset.py downloads the raw data and checks
+# every file against the SHA-256 that Mendeley Data publishes; data/dataset.json lists them
+data/raw/
+data/sources/
+
+# Virtual environments
+.venv/
+venv/
+
+# Python build and cache files
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Tool caches and reports
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Partial downloads
+*.part
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Streamlit secrets (the app uses none; never commit any)
+.streamlit/secrets.toml

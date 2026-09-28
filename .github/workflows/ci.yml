@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Monthly: download the raw data again and check it against the published fingerprints.
+    - cron: "0 6 1 * *"
+
+# The workflow only reads the repository: it publishes nothing and uses no secrets.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Actions are pinned to full commit SHAs (tag in the comment); Dependabot keeps them current.
+jobs:
+  lint:
+    name: Lint, security lint and type check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14"
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Ruff lint (including the flake8-bandit security rules)
+        run: ruff check .
+      - name: Ruff format
+        run: ruff format --check .
+      - name: Mypy
+        run: mypy
+
+  test:
+    name: Test (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Test (model, documents and app; the raw-data checks are skipped here)
+        run: pytest --cov --cov-report=term-missing
+      - name: Documents match the data
+        run: python tools/update_docs.py --check
+
+  deployment:
+    name: App with its pinned deployment requirements
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install exactly what Streamlit Community Cloud installs, and pytest
+        run: python -m pip install -r requirements.txt pytest
+      - name: Test the app and the model with the pinned set
+        run: pytest tests/test_app.py tests/test_ecm.py tests/test_lab.py tests/test_validation.py -p no:cacheprovider -o addopts=""
+
+  raw-data:
+    name: Raw data downloaded, verified and checked against every stated number
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    # Depends on Mendeley Data being reachable, so it reports rather than failing the build.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14"
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Download the 206 files and check each against its SHA-256
+        run: python tools/fetch_dataset.py
+      - name: Every number stated about the raw data, recomputed from it
+        run: pytest tests/test_raw_data.py tests/test_validation.py -p no:cacheprovider -o addopts=""
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Reports known vulnerabilities in the dependency tree. It does not fail the build:
+    # a new advisory upstream is news to act on, not a reason to mark the code broken.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14"
+      - name: Install
+        run: python -m pip install -e ".[dev]" pip-audit
+      - name: Audit the development environment
+        run: pip-audit --skip-editable
+      - name: Audit the app's deployment requirements
+        run: pip-audit -r requirements.txt

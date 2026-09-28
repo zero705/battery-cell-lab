@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Python dependencies: pyproject.toml and the pinned app requirements in requirements.txt.
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: monthly
+    # A release is proposed only once it is a week old, so that a compromised release that is
+    # pulled within days never reaches this repository.
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7

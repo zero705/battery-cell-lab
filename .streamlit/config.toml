@@ -1,0 +1,25 @@
+[theme]
+# Light base: the chart colours were chosen against a white surface.
+base = "light"
+primaryColor = "#1f4e9c"
+
+[client]
+# Visitors see the app, not the developer menu.
+toolbarMode = "viewer"
+# If something fails, visitors see a generic message; the exception, its traceback and the
+# server's file paths go to the server log only.
+showErrorDetails = "none"
+
+[runner]
+# Only explicit st.* calls write to the page.
+magicEnabled = false
+
+[server]
+# Streamlit's defaults, stated so that a deployment cannot silently weaken them: protection
+# against cross-origin requests and cross-site request forgery, and no static file serving.
+enableCORS = true
+enableXsrfProtection = true
+enableStaticServing = false
+
+[browser]
+gatherUsageStats = false

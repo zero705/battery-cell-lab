@@ -1,0 +1,1461 @@
+{
+  "dataset": "LG 18650HG2 Li-ion Battery Data",
+  "doi": "https://doi.org/10.17632/b5mj79w5w9.2",
+  "version": 2,
+  "published": "2020-01-29",
+  "authors": [
+    "Phillip Kollmeyer",
+    "Mina Naguib",
+    "Michael Skells"
+  ],
+  "institution": "McMaster University",
+  "licence": {
+    "name": "Creative Commons Attribution 4.0 International",
+    "url": "http://creativecommons.org/licenses/by/4.0"
+  },
+  "record": "https://data.mendeley.com/public-api/datasets/b5mj79w5w9",
+  "files": [
+    {
+      "folder": "0degC",
+      "filename": "01-12-18_01.14 589_Charge7.mat",
+      "size": 5638,
+      "sha256": "71132a9529ae06682578e0a52698b9a46cfee096d92d6f884b5449a80375dca9",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d830ef2c-10d5-4824-8d29-4943a350c120/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "01-12-18_04.35 589_Mixed2_0degC_LGHG2.mat",
+      "size": 1844620,
+      "sha256": "ba24a8ab55b2856afcf8c047773e41fb6e9bdfd8399fc705a619a12e7a41d88c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/431a7e09-0f11-4b45-96fa-fba42b479a26/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "01-12-18_06.36 589_Charge8.mat",
+      "size": 5653,
+      "sha256": "d541ec8912ae1bf2f26643dbbc5be5ac08f840259cfc98d36e3918f0577809f5",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/505e5fc9-3160-4eff-ae54-ddb864949737/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "01-12-18_14.21 590_Mixed4_0degC_LGHG2.mat",
+      "size": 1716981,
+      "sha256": "fb0b76f55fc414efc2f20b25c2d1d92cedf2ecc907fd488a0f55316c472c2880",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9b3cf773-30d5-4d14-9d04-f7cf96cb3e3c/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "01-12-18_16.16 590_Charge11.mat",
+      "size": 5423,
+      "sha256": "5e8ba93a4a08863fbabd19e8eecafa11a3285c059e3ae4e602183040c5cf9106",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d1688c31-6fbc-46bb-b22c-12edd31abbcc/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "01-12-18_19.37 590_Mixed5_0degC_LGHG2.mat",
+      "size": 1650777,
+      "sha256": "bfb0074b49fae4ba2f97c85fe7462f5df2633be9dd4d0bf4adefffe1b17d0321",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/02f0177c-9f97-4900-805f-8d91538444d7/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "01-12-18_21.26 590_Charge12.mat",
+      "size": 5633,
+      "sha256": "4ade563cb9b09de4c4bd003317008739c4ec9c8133c6d03791425438a65562d2",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6360987d-5394-4197-8075-e67809284254/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_00.47 590_Mixed6_0degC_LGHG2.mat",
+      "size": 1582733,
+      "sha256": "5de9e42d75acc04cc8c150deca528de5cd6d0958c638123c3b7f529096756fcc",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d3d1fe7a-fe01-4291-ab02-c7d129b72557/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_02.32 590_Charge13.mat",
+      "size": 5623,
+      "sha256": "e9860583599b658bd8603dd211c4d11b40bbc70579a88a1a65479786d47549d7",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/39263d1a-e1df-4e44-8ad0-09bb684c8f5e/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_05.53 590_Mixed7_0degC_LGHG2.mat",
+      "size": 1558803,
+      "sha256": "a8d349b0348a62e49858f8f3f739b20082256c1d9456fc92b4f4a31daf4797be",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6e52d09e-a902-4122-a9cb-6ebacb7d02c4/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_07.36 590_Charge14.mat",
+      "size": 5593,
+      "sha256": "a0b0e42613521f61e13109925fca499c1188aa6b9ba54e33e3f531740785e495",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/b675574d-53be-4cf5-9fef-6f0dd4a8aa83/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_10.57 590_Mixed8_0degC_LGHG2.mat",
+      "size": 1912443,
+      "sha256": "d3f8f5ec81b193d0b6e8113bd8bf80381180ecabb07c7ab916482c6986cfe1af",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/8fba9597-847c-434a-a0f9-4c3de86f5bce/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_13.05 590_Charge15.mat",
+      "size": 5613,
+      "sha256": "1c07455f6f8848dc6df67a6726f993842b8f74205065c5282d4e7ab30443d842",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a95a0a94-e71a-4f4b-bb1d-5dc1cce78329/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_16.25 590_PausCycl_0degC_LGHG2.mat",
+      "size": 587132,
+      "sha256": "8324bf050fc05e08bb6ba24cb9b3d67258e0d062a5d3e33a1a48a7d11f544fe2",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/97a277f6-df2e-45bd-9748-d0316bacaccb/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "02-12-18_17.10 590_Charge16.mat",
+      "size": 3675,
+      "sha256": "3415cb33fb79f04854c7d5b29e49f1d23dfe1db2e6d93ca7febfdbb73bfaf965",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4a08b931-3247-4555-a2ae-e92f7d5330a3/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-26-18_22.46 585_HPPC_0degC_LGHG2.mat",
+      "size": 641052,
+      "sha256": "308bb12a50311ca18bab3df23eb1f81166a6d299df7016e76e726e93c103b389",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/63573b92-a71a-4724-bd72-cf42c70ed2d7/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-27-18_20.41 585_C20DisCh_0degC_LGHG2.mat",
+      "size": 69105,
+      "sha256": "1ab57d4107193a2802c0d1cce695a5bead00289d676e714d26fe63b6cb402da4",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6f20c452-ffea-4806-94c6-ce6b57c7d2af/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-29-18_10.02 585_Dis_0p5C_0degC_LGHG2.mat",
+      "size": 9404,
+      "sha256": "00fce0f15b9c52f3cdd6ccf09af7ca036ca58ac3a0c84662b882ba79e402f117",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/1714b9a7-8d5c-4dd0-ba90-445ef0f77ce0/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-29-18_15.07 585_Dis_2C_0degC_LGHG2.mat",
+      "size": 6515,
+      "sha256": "08771bf0078632b8068d40ce3da9c2d038b02923185f730726ee80066c81290b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/f2c46420-e299-4589-be6d-a608720fc361/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-29-18_18.53 589_Charge1.mat",
+      "size": 2822,
+      "sha256": "06c138e2ef4f6e8aaa3d3921929dccca00fa1cd32cf2faa4d2ad06313b5c99bf",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d0f14018-81c5-4f64-bfc7-877fbac6775d/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-29-18_20.59 589_Cap_1C_10degC_LGHG2.mat",
+      "size": 11119,
+      "sha256": "259a1d7d3d6bfa41f23b42b0572cfa9d82f2d35f504116e1c78c458cc4ad9f43",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9427ccf4-dc55-4765-a846-e7cb9a2e97c0/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-29-18_22.00 589_Charge2.mat",
+      "size": 5725,
+      "sha256": "c38ad40434d2dcd253240e332270ba2ec0ba33e054c7587e140fb740000765ef",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/91720141-4607-4776-851a-b387a88899d7/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_01.23 589_UDDS_0degC_LGHG2.mat",
+      "size": 3491286,
+      "sha256": "a3e4fe8d27d99d5bf12ec60e5016e1145a6b814cfcf2fd591e9ee43c9e7a2568",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6b610502-926e-480f-98fd-d84ae6f7e5a9/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_05.18 589_Charge3.mat",
+      "size": 5619,
+      "sha256": "ce8e5d1548318ef3514224b505617f0f5b50b3873f53f0303c1705be0e221c38",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/8e3bea9b-3d75-40bf-ac36-004a49406b77/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_08.39 589_HWFET_0degC_LGHG2.mat",
+      "size": 1263900,
+      "sha256": "bdc353382ac07e337c92d111face6e6e26c084b6e819166d6ac5b4b3b8627b3d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/1eec58b2-cf97-40df-9ed4-e65fdccc810f/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_10.03 589_Charge4.mat",
+      "size": 5603,
+      "sha256": "cc7dd89ec076c315dbc34c564437e1dbd72417944ac61f09e074e8b78c833d72",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/031296c9-82bd-4198-bc44-fd8794c24ff2/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_13.24 589_LA92_0degC_LGHG2.mat",
+      "size": 2073993,
+      "sha256": "a8ac9a841636396047a31f42b5530285132a9e87364bd23b3f308c4e95b82330",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/3526d6ab-ec33-4b85-9dd3-be09689df21a/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_15.41 589_Charge5.mat",
+      "size": 5705,
+      "sha256": "9c4ce9e750a2b967ca23e970c0ca0011b27c1a33b64425d927a9183a4832a131",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/285bc737-606e-455f-94c8-ea0fa94f756a/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_19.02 589_US06_0degC_LGHG2.mat",
+      "size": 894226,
+      "sha256": "390867012617455b692787e1b59f829b4784387277efa3fc83ade0084d92c78b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/8d92b558-6a69-4d56-b7bd-f583e3b96729/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_20.00 589_Charge6.mat",
+      "size": 5538,
+      "sha256": "1bb95e96d83f4124e299e50379b757b0a7c76a4752174128a1a84df47e2dab8f",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4afb092a-3f98-4dbd-a4ed-4352f020e4bd/file_downloaded"
+    },
+    {
+      "folder": "0degC",
+      "filename": "11-30-18_23.20 589_Mixed1_0degC_LGHG2.mat",
+      "size": 1718732,
+      "sha256": "d6e08388f9ab4c7a0b6d2fde4336fe2759f8141f2c6ebae7015cce2026f87416",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d291950b-a904-4413-b49b-2ba3b76c67ea/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-13-18_18.38 567_US06_10degC_LGHG2.mat",
+      "size": 1037092,
+      "sha256": "9f630d0109938c6f92a3bea49f35f41eca1f0e6355e27c2b3962cd682803d121",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9050dbd3-73d5-457b-aac0-f369ce5b5a24/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-13-18_19.44 567_Charge6.mat",
+      "size": 5763,
+      "sha256": "3014c66c7aa2470b981a39f2c665762aed3bdd562312ebeb0c41002f471f8e6b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/0294700f-1633-43f0-86a1-51abbe2ce41e/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-13-18_23.07 567_Mixed1_10degC_LGHG2.mat",
+      "size": 1814078,
+      "sha256": "b6fd13c5c0281e6558344d1b2666167b626357e9eab7ca068c31237ea7f8122e",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4e6e3fd2-6c7d-4100-ae51-20e937a345a4/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_01.08 567_Charge7.mat",
+      "size": 5777,
+      "sha256": "b3b69f09d21785c31520b709319049cb85c183a7f09936431b3ea2fc377f287c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e6af064b-ed86-4617-8694-4ca37d11727d/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_04.32 567_Mixed2_10degC_LGHG2.mat",
+      "size": 1947150,
+      "sha256": "fa4d5e3a9787d66b9193a0cdf44383b8d325be0e9aaa6629da8a983c422833bf",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/5eb642ae-d7ef-422a-87d7-462dc402e87d/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_06.42 567_Charge8.mat",
+      "size": 5776,
+      "sha256": "7b7a4212f80dd98ff27b852c45b0cf2922633c17b7a473aa36104618e5e364f4",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/264b1fc1-6bbf-4fb5-b4d7-8536af6383cf/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_10.06 571_Cap_1C.mat",
+      "size": 11361,
+      "sha256": "f65990f558d9e91a9e93ab5c8e2d4ee36d146dc6cfaef1e1ea1b27fedfd3ad2a",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/27b18d41-0545-4802-8cee-22b3604949f2/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_11.07 571_Charge10.mat",
+      "size": 5794,
+      "sha256": "6ad76a5b5578e44baa2a63cd47b7c9ddebf37d0dd11769d56b044e0de00dd55d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a2cb57f6-e2e6-4a45-b265-3543d10afeb2/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_14.31 571_Mixed4_10degC_LGHG2.mat",
+      "size": 1851018,
+      "sha256": "b7b171b04807544616436537efe9e055ffdee271a8cddb43aa7cc9f17337b449",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/361ae479-d883-4600-9777-9f3de36f4edf/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_16.35 571_Charge11.mat",
+      "size": 5599,
+      "sha256": "11a30152fa874c97daf7d1fb1fd03d14eb4d6c374a92cfb3c59bb66c1e8dbee0",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6b25714c-06ff-45fc-bfcb-12f678f84309/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_19.56 571_Mixed5_10degC_LGHG2.mat",
+      "size": 1691013,
+      "sha256": "bb94e8de042fb72d3a8f50edac86922241e7cc4de6855150886d90fe592a4c1b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/ccaf7409-57ca-4147-8e3d-d6d7832c6bf7/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-14-18_21.49 571_Charge12.mat",
+      "size": 5591,
+      "sha256": "9e52920c368606d8ca041414f76c5d988a1659d91552192ef386180b9a1e5a56",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/7398fb90-8edb-4905-9175-970f323dcc42/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-15-18_01.10 571_Mixed6_10degC_LGHG2.mat",
+      "size": 1844947,
+      "sha256": "01f945512ab08316f7938b899f62622daea3949e0ef5171497b3d720c17489d6",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/94efe33d-86e8-49d2-85e9-6f134248e6be/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-15-18_13.39 571_Charge13.mat",
+      "size": 5660,
+      "sha256": "96808ba65b12b69373adc9402248bd9780ce562846a7e195f532d9d1b8b11be9",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/33b06f92-4325-43af-b7b4-2ca458e2f0ba/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-15-18_17.01 571_Mixed7_10degC_LGHG2.mat",
+      "size": 1749299,
+      "sha256": "09c18fe30900e428f47f5d43288a3ccc593deab79e58d4490c92d093d0cdc9be",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/38515dc8-4536-4062-a985-033e4b624123/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-15-18_18.57 571_Charge14.mat",
+      "size": 5660,
+      "sha256": "1915f20a59908e048a9cf7fbdb88145c85215875fe1d24fbe9edd440cad3d252",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/90f265e7-6b98-4f66-a714-030d910950ba/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-15-18_22.19 571_Mixed8_10degC_LGHG2.mat",
+      "size": 2044496,
+      "sha256": "4c107027efe5218b27bcbbd1c6c791d5cb9a85f18eb0d89fcf8bd8612548e3dd",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/b4d6db34-35c7-40e6-a24c-3fca8ee72ffe/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-16-18_00.35 571_Charge15.mat",
+      "size": 5629,
+      "sha256": "dfe3389349e04b4211a9b1968c104a40f4e4ad942d925f0a0b2f43da26814921",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/5c241fd5-df71-4c2e-b9ac-a09a7bb0425b/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-16-18_03.56 571_PausCycl_10degC_LGHG2.mat",
+      "size": 615802,
+      "sha256": "4bfeb9bf01ab1f8e3d7966420d534fea08452f56bc6cc04b7e52e82fa922cfc7",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d9103356-f610-4c7a-bad6-3a23035e83f7/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-16-18_04.44 571_Charge16.mat",
+      "size": 3527,
+      "sha256": "72930a5552e90a945c0f8fa73b7cc1f4955a33a0a91ba89ba3fda2d31cdd7361",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6f3256b4-8a04-4784-9656-975e351c61a1/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-16-18_20.44 575_HPPC_10degC_LGHG2.mat",
+      "size": 704545,
+      "sha256": "25fac068eb5176a1c15220dbfeb1b6f7a6f99245d3fdb240b882b09a9edcde34",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/f1c32229-fab8-4648-855b-dce53ccdbeaf/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-17-18_20.39 575_C20DisCh_10degC_LGHG2.mat",
+      "size": 70753,
+      "sha256": "f1292ba8d73812b37b5e467aaaf5b9cd91e750516062ccca992118aa51c7b675",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/996ad883-27c5-4130-9dca-8ded27b54861/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-19-18_11.33 575_Dis_0p5C_10degC_LGHG2.mat",
+      "size": 9553,
+      "sha256": "9067c9d15b284686222c8e16930abe84796ec36c12b209ce736eb88cc36c662e",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/0aece866-bf9b-4f0f-bfec-7ec93bea40fa/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-19-18_16.47 575_Dis_2C_10degC_LGHG2.mat",
+      "size": 6811,
+      "sha256": "0d223402b547c4a2a54b365d7cb5788dc3d7416de400e364f620114481a65e83",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/5894f236-60c0-4a97-9895-20943239c186/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-19-18_20.38 576_Charge1.mat",
+      "size": 2724,
+      "sha256": "9711d2ed3f024086a5a0462e4d9b5a2209aa20893fe6c6cb9a596cb72a6b24cc",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e9bee2c6-f4ba-4d29-b539-41e704a55a88/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-19-18_22.43 576_Cap_1C_10degC_LGHG2.mat",
+      "size": 10968,
+      "sha256": "e0cd87699626cfe4a88e3a2f62c15372b352e87541a4ce79a3d20866ec241e10",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/25c9a8fb-8c92-443f-90cc-ad0410c289d2/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-19-18_23.46 576_Charge2.mat",
+      "size": 5772,
+      "sha256": "39be5076e4262772fb9882a575bf933fafe1fce9df2b20e3367bc533d91c3a84",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/68b29827-d6e0-434d-bf44-86c0d86c3284/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-20-18_03.10 576_UDDS_10degC_LGHG2.mat",
+      "size": 3616667,
+      "sha256": "f01c711df9063c5a7b844b8dc7d1fe908aeb0fde1d2f5f3b8a7893af697da391",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/be075c89-0197-463c-8b64-c300a6be155d/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-20-18_07.19 576_Charge3.mat",
+      "size": 5709,
+      "sha256": "afcda69706dec7535bacdd000aa3ee94635001d446b9fc185aeddacdf83335d3",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a962d428-529b-4c22-9cf9-0f4851d65d67/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-20-18_10.41 576_HWFET_10degC_LGHG2.mat",
+      "size": 1309282,
+      "sha256": "87150b6131ed21880416f1739daf9f9d95467beb81f123d3a21b192ebf0d8f24",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/59c31534-d5b3-4665-b73f-8f5850e91870/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-20-18_12.10 576_Charge4.mat",
+      "size": 5690,
+      "sha256": "0000b2cebe95a41f466be8da5c782c265109730a4921d80aee24355cd837d257",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/cd0a051c-03b5-40e9-b64b-6f390f9c8aac/file_downloaded"
+    },
+    {
+      "folder": "10degC",
+      "filename": "11-25-18_20.59 582_LA92_10degC_LGHG2.mat",
+      "size": 2298053,
+      "sha256": "74606c4ffdec3ae5d324a437cda004192ac161bace4a6f63103af2ddecdd8df8",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/5cca12e1-57c0-49b3-9348-79d19ba29346/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-25-18_04.09 549_Charge.mat",
+      "size": 18987,
+      "sha256": "9e06c5d474a0a14fac1f9bf685389e446b6d34406a640c84922c18bd8b688d5c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/528b4a0d-e7c7-49fd-aa67-8490468904cc/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-25-18_07.39 549_HPPC_25degC_LGHG2.mat",
+      "size": 629646,
+      "sha256": "eb3fdfa111a9761d825ce164d8108c09be3129e039eb1fd1c95ba1f3520fcc75",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/5e1e2686-bc0c-4a29-bed6-51fb64d929f8/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-26-18_09.29 549_C20DisCh_25degC_LGHG2.mat",
+      "size": 71421,
+      "sha256": "570746af29365dbe2aa7850a8b095bf4f131a6692a1c47dc065141dfc789260d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/aff85ceb-68df-4114-80aa-e592cda7d0d9/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-28-18_01.48 549_Dis_0p5C_25degC_LGHG2.mat",
+      "size": 4291,
+      "sha256": "6c343cd72008bfcec298e0837f5fcfc04de3abd7659a59adf250cb17f1694585",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e4695e70-a0a3-4dca-b2a8-8679112ca3a7/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-28-18_07.09 549_Dis_2C_25degC_LGHG2.mat",
+      "size": 1464,
+      "sha256": "3f5fc538d1886b3ef77d34fc489a5ee5be100743ffb8061e225b23f266fe2d72",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/0f720eb4-f013-49d6-a86a-156728952d33/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-28-18_11.04 551_Charge1.mat",
+      "size": 2300,
+      "sha256": "ce6b5cfc736cbc5197f09373cea1ba5032cc32c4f0d84c0d7dd548815791c7cf",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/afaa2e95-ff39-45a6-8f76-ba09059a46d1/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-28-18_13.10 551_Cap_1C_25degC_LGHG2.mat",
+      "size": 11384,
+      "sha256": "0846effa0812b2a1a04e845e220a07ba3653387744bbd8a9a366902adbed2177",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d8af4fdc-399e-44f9-b79b-74e3ecbfe9f7/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-28-18_14.16 551_Charge2.mat",
+      "size": 5504,
+      "sha256": "62b11888092949f3e8fec10888d8cab9334f1eebbb3b6ddec6f2e03cac97bdfa",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/666d0335-3de2-457c-a949-471c850bb4ab/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-28-18_17.44 551_UDDS_25degC_LGHG2.mat",
+      "size": 3363520,
+      "sha256": "2beafcb42b5eec07ffa465b95abce1746d90504c440113276dc07f8b8a958b77",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/68607e44-9689-4004-8692-114007debc8c/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-28-18_22.11 551_Charge3.mat",
+      "size": 5443,
+      "sha256": "bcf689e62845027d87f782b44b623060f174f53a7d46e8fa1ae7bca109960a02",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/bc0f5409-75f9-4039-9f20-6716ced28510/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_01.36 551_HWFET_25degC_LGHG2.mat",
+      "size": 37478,
+      "sha256": "28660bc4de7348ba296a855ea778a2078c2764ac78323d2525e2490f571f1f94",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/f310b377-1bec-4cd3-8678-a697937564d8/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_01.47 551_Charge4.mat",
+      "size": 2315,
+      "sha256": "7241f3c08ca16730e53141daf61e616faa2bda256f55906a59feba533ec19ffc",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/7b06f782-3d5c-4ad7-b8f9-4435ea14d001/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_03.53 551_LA92_25degC_LGHG2.mat",
+      "size": 2208573,
+      "sha256": "43b9803b858e44ad29e7dcfa59fb395ebb06560732fac86b5fc0c1dc5bb62dcf",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/37689e74-34fb-46cd-b0b0-0f48103ad32f/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_06.42 551_Charge5.mat",
+      "size": 5476,
+      "sha256": "77baa564542e7c7b242027f64781edbb84dcc5ebe8dac13dd545161964f57f30",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/1c2b598b-9619-414b-85ae-734114577461/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_10.08 551_US06_25degC_LGHG2.mat",
+      "size": 938646,
+      "sha256": "87eb8d7a735e6b54c582f663c21bcc06037390feb773770b9901163878c50485",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/79423ea6-b7b2-49fa-aaeb-33fc8492422f/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_11.15 551_Charge6.mat",
+      "size": 5416,
+      "sha256": "3d69303d040b85c5bd3d19ecd560a3ec354c7f35c16e1b771cec45c9f02059d5",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/bad0b30c-8958-41e0-94f0-bfcfdade1864/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_14.41 551_Mixed1_25degC_LGHG2.mat",
+      "size": 1675500,
+      "sha256": "8e05da70b31c3f8b10d34592cce193daae0478ccabf9112bef59c778cdc3b74d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/00e57f33-dc27-453d-8dd6-2e1ec57417d6/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_16.50 551_Charge7.mat",
+      "size": 5451,
+      "sha256": "1a61d1f5ac0cbc68c2497df41dfb5d92bb3361fd5f41a0a019369900b8071e03",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/eb4c2ca6-b02e-40c1-aead-31199fdd69ac/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_20.16 551_Mixed2_25degC_LGHG2.mat",
+      "size": 1718302,
+      "sha256": "9608ed630bf4cac74f6204dff3e6cfad04e70446f4fcf2d447f92291572d49fb",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/2e603f04-7841-42ba-bc25-cea6c404a7ba/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-29-18_22.29 551_Charge8.mat",
+      "size": 5396,
+      "sha256": "9afd7005add121e336b8e05507f8375ce67b376dd8e8acb3dadf96feaa724542",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d7c806a0-7ca0-4f30-bae7-2dd50489bf3c/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_01.54 552_Cap_1C_25degC_LGHG2.mat",
+      "size": 11704,
+      "sha256": "eac84ce59f8f7af7cb1199947a6f515ad7a42aae5352b993738ecebcb0ee05c4",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/72cf241b-60ed-4e3f-b220-27d3a2d8a3a1/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_03.00 552_Charge9.mat",
+      "size": 5541,
+      "sha256": "4400cc79168ee98df4eb0d71ced767bb8d46845a4fd69cd5580b1693f90dd064",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/71bf3a58-b29b-4e5a-9ca7-dfd3f45efcfd/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_06.27 552_Mixed3_25degC_LGHG2.mat",
+      "size": 1611016,
+      "sha256": "07f9cdf938fc9f705ad68d30ba881f12cec91eeb43ac5a61a17a21436d065944",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/2540a4b4-fc29-48de-9736-0cd4e7d11981/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_08.31 552_Charge10.mat",
+      "size": 5458,
+      "sha256": "60bbd419ef7dfe7d7cbfa98c2fe017e0957487ee7804c726991bd25c8ff393eb",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4761e24e-9a11-4516-b415-560f8e1f5224/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_11.56 552_Mixed4_25degC_LGHG2.mat",
+      "size": 1760414,
+      "sha256": "ddd908addee5212c7dd231a2d388b5b2d07e6c1fecf04c0c42107bc58c55ffdf",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/bfc6417b-5181-4936-8878-7795a5ef4850/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_14.12 552_Charge11.mat",
+      "size": 5430,
+      "sha256": "a6b826ffaa1b81b136a99391f74e9e4aadc7dbe9c3a1eb48d8b22b9050c98371",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6014ff3c-c9e8-4a11-995f-87d33f59cfe6/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_17.36 552_Mixed5_25degC_LGHG2.mat",
+      "size": 1571507,
+      "sha256": "9ff7675181f2e93106a0a4513e3f5fa23ce8ea8ca9c841ae55e789ddc52b597c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d7970c41-7087-4919-befc-bd4566f2e2e5/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_19.38 552_Charge12.mat",
+      "size": 5463,
+      "sha256": "1a8ebcf3f30c985792c081ed11d76788eb1254762d910f8e41356301be277c93",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/b0e2ff85-7b6e-4beb-af83-38710fdc503a/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-30-18_23.02 552_Mixed6_25degC_LGHG2.mat",
+      "size": 1691404,
+      "sha256": "453606081f7a821bf5c8149de085ed57d0a2f8a61ce51da9be087e3a52bb341a",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e911caf3-fedd-4a5b-a531-352cbb18e10c/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-31-18_01.13 552_Charge13.mat",
+      "size": 5396,
+      "sha256": "f9cb8902d9362c865eece12a33b9ff8c2d7255f092ac17bdf773a06a85c3bd22",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a73788ac-4431-4896-8196-c4de69afb06e/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-31-18_04.38 552_Mixed7_25degC_LGHG2.mat",
+      "size": 1593659,
+      "sha256": "a76eb3f148d5655d3e07b442ad6c48a8d6229b98e71b20feb50de44ae9e5037a",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/79574b0b-449d-452d-a623-c5b1b15355ab/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-31-18_06.41 552_Charge14.mat",
+      "size": 5432,
+      "sha256": "2ef38827e2c3121757b431bf8c9e9adeabb0ccd48dc7da4a4b30cfcd1dc427e6",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/42b07f66-f625-4d29-ba17-290bb9668f76/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-31-18_10.05 552_Mixed8_25degC_LGHG2.mat",
+      "size": 1857516,
+      "sha256": "fcda7ecd11afa526fb15743bf6aaeb7474917ac8a47606c025a2c231288d0298",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/fa214fda-b256-4b55-8c7f-8b3f0d46b5d9/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-31-18_12.30 552_Charge15.mat",
+      "size": 5424,
+      "sha256": "d693a693dab97fb73dbd3c229467b43530744af6f7168c4ea2090a8b8647ac47",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9f5fd114-d284-4584-80e9-0ac7f5db2aca/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-31-18_15.54 552_PausCycl_25degC_LGHG2.mat",
+      "size": 378256,
+      "sha256": "4c624097ab6901754cb4d5f336b3144fdfc2d453f50b991f7ed0c19cca88e348",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/cf845980-47eb-48de-8a7f-a75e8b58d2a9/file_downloaded"
+    },
+    {
+      "folder": "25degC",
+      "filename": "10-31-18_17.41 552_Charge16.mat",
+      "size": 2150,
+      "sha256": "46415517c12762e6db512e2ed304ef7d856114430913d7ceadaaf3820f3a1f69",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/15469c5b-a545-4806-93bf-6ec6b9b95892/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-02-18_18.30 555_HPPC_40degC_LGHG2.mat",
+      "size": 682797,
+      "sha256": "3d9108971b6909db18723a55dea7831ee78bcc6f3a63bc7523fcd09d53c795e8",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/11e3546b-70ba-4ef6-b81a-e3d489f72492/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-03-18_18.25 555_C20DisCh_40degC_LGHG2.mat",
+      "size": 71002,
+      "sha256": "82c1a13b05cf9c8eb742a48c01e2dd75d19ec35525772aab54c49ef088de3d5b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/ba326d37-3167-47cc-9d0b-3adc33ac3f13/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-05-18_09.24 555_Dis_0p5C_40degC_LGHG2.mat",
+      "size": 9632,
+      "sha256": "ee673db97f9256e9a5b2dc533a0953c50772ca638ae376e1bb9eb8cc2c1e0f64",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/75934bdb-1634-452f-a0c4-1b47e4baf19b/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-05-18_14.39 555_Dis_2C_40degC_LGHG2.mat",
+      "size": 6992,
+      "sha256": "f36b9f675b8df0b917558731ceb655be863ef456fed4f5197bb4fa6403ca3c71",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9de78274-5c48-4c75-9456-568fb28906e6/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-05-18_17.32 556_Charge1.mat",
+      "size": 2734,
+      "sha256": "b6c084641815f43a592d21dd8ea7702d78c18977c31d95b8d4fff47aa91e95ab",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/c4f16fba-5e65-4ac5-8dcd-c5e123905de0/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-05-18_20.44 556_Charge2.mat",
+      "size": 5959,
+      "sha256": "b5585e245d5a9e2d8c7ce665d81309035d273cc9cc16ea334c3dc30286f2776f",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/99bc591f-d218-438f-9bb0-410418d1fb20/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_00.10 556_UDDS_40degC_LGHG2.mat",
+      "size": 3749704,
+      "sha256": "a38de6d1db2976f96b3b276da91655e5a2dfd71c10f26c78ca370f0f0629bc64",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/f012b438-ce77-4489-91cb-f0fe21de5bfa/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_04.36 556_Charge3.mat",
+      "size": 5807,
+      "sha256": "3f7b432c5b34b3425cf34fa0ab591903255a44ad2f1009fef73b9357257ad21a",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/31be7684-10c8-4bad-9f5a-0e5288a04e35/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_08.01 556_HWFET_40degC_LGHG2.mat",
+      "size": 1325931,
+      "sha256": "274df0939f8222335872446c9e82a5f2f1e283a6cc9a617544cc4e0e1fb55b31",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/63031a85-3a93-45d0-86a2-b1b88926c009/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_09.35 556_Charge4.mat",
+      "size": 5795,
+      "sha256": "ccd89b305172d18d8790085cb4435c249cd7684fd77c83b1b6970e2713698ba8",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4abdc7b1-4f53-407f-994f-35099aeafdb6/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_12.59 556_LA92_40degC_LGHG2.mat",
+      "size": 2400952,
+      "sha256": "43f51b51d5f8de34f24a1c55cb93e6f5535052bc68bb9bab37a2cfc8ca7a442a",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4989872f-7426-4497-9179-190d7b4ea210/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_15.45 556_Charge5.mat",
+      "size": 5817,
+      "sha256": "89188607c7cc69c2b805855533705647ca654d28a236a4cb24c831a32a0a60d6",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/1c46be59-8ab7-4fff-9ddb-46c0a63c9b98/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_19.09 556_US06_40degC_LGHG2.mat",
+      "size": 1037860,
+      "sha256": "7eddd1dd28ee9f208ba4ed9314d731d5b1f16cb004de707f6145c6f47aba315d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/411fa760-3510-4b41-a2a8-37e1b80cf6f9/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_20.17 556_Charge6.mat",
+      "size": 5799,
+      "sha256": "a0fad8eb2c598e1a1715a4146fd3b6a78c54d09635253bcf5187b124fc11328b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9654ab25-273a-4392-b334-414ae69bd5a7/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-06-18_23.41 556_Mixed1_40degC_LGHG2.mat",
+      "size": 1815074,
+      "sha256": "329e99a96ced01eb6ea229679131cc09ce6ac75b69925b00badacd7109d8a0ba",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/c0bd3b4d-e76e-4c3b-b977-07db68d6dc07/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-07-18_01.47 556_Charge7.mat",
+      "size": 5863,
+      "sha256": "b43482ac262192d2d03780638b7a6a6f904360abef73c02f691c1d209fcdb4aa",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a58eb64b-1187-49c2-9514-c729a6d525cd/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-07-18_05.12 556_Mixed2_40degC_LGHG2.mat",
+      "size": 1911098,
+      "sha256": "0f05b64bd8e80d46130d12cebb0ae0b37ed4b2a4890516e0849c1492f98c5001",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/23954667-5d2d-4d69-905c-2c97cadff558/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-07-18_07.24 556_Charge8.mat",
+      "size": 5829,
+      "sha256": "e2bbde909b528b986eefc273b90b8e985a70d0a638b55ac4c20539481341ec23",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6ce9cae4-b2fe-44e9-8ac2-e5db2f8f054c/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-07-18_10.49 557_Cap_1C_40degC_LGHG2.mat",
+      "size": 12029,
+      "sha256": "d06bbd1e56c028fb572cb1dd3696d11bb46d1314d4aebdf758911ca5d80b266c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/90f1cb28-a81d-4cd8-a7d2-7356300efef0/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-07-18_11.51 557_Charge9.mat",
+      "size": 5804,
+      "sha256": "c42982405a2b8e2d19419bd6307d1e9a82ebb1b35b654a574edbc07a6a633b73",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/74239a54-b6d1-40e2-bd71-4a9fcab9bb5e/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-07-18_15.14 557_Mixed3_40degC_LGHG2.mat",
+      "size": 1626289,
+      "sha256": "860dcb76988e65b071b803ace6382b517421cfad6fdda9bc60d703d3d2116146",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/f23d4603-7158-473f-9e43-664ce0bfc991/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-07-18_17.08 557_Charge10.mat",
+      "size": 1071,
+      "sha256": "c7b5b928e8f1794540e34ef9bb1064bd7f6ac7b7e5721aacd16da1e7bfd9c71e",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/dda79b61-5790-41d4-be3e-1b38ebddd822/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_04.31 562_Mixed4_40degC_LGHG2.mat",
+      "size": 195701,
+      "sha256": "262255ff868224fb3d07c8c8063363dd5b095000b39ba043e54fd3640eeb8696",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/6c7bd6fd-4d14-4f4f-81ad-cd2955b31bc9/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_04.51 562_Charge11.mat",
+      "size": 2904,
+      "sha256": "9073f8d348fbe79ba944180d4223f430e9aa57850092dbef8a4a4b5b37c7413b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/dd003b10-16f4-4cbf-a6ba-0922232228e7/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_07.11 562_Mixed5_40degC_LGHG2.mat",
+      "size": 241633,
+      "sha256": "23b8b0e1b1dab2180f5e75ad851b2c25195cbf62232271b30bbd4a51ebe836c9",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/af93b129-bcff-4a34-b5ac-b66de6ef954c/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_07.34 562_Charge12.mat",
+      "size": 2937,
+      "sha256": "1039ae7135854f37e573fbb3c67646160d57d2ce27a25f5dcf7c6d4c2326834c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/67587fe6-704c-4eab-92a4-184dc64a8239/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_09.53 562_Mixed6_40degC_LGHG2.mat",
+      "size": 210844,
+      "sha256": "9791a0ef4cf43aa747f5ac710010e4af282b247ba128260b3e390848bfca9751",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/088a4812-7a9d-4ffd-97e4-c2645944204a/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_10.13 562_Charge13.mat",
+      "size": 2898,
+      "sha256": "7e3c44feea4719ad22c7fc059c285a9ce849763cb03c66a98d3ed71cf8a30d05",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d0053253-7ee9-46f5-93be-c4fdb61492f5/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_12.33 562_Mixed7_40degC_LGHG2.mat",
+      "size": 113982,
+      "sha256": "aba6fb44852079f6db593f56fba35ae312fb5862932a01fbf1afdbfb8c78df36",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/cabec42d-129c-41c6-89c8-06769770f1d9/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_12.47 562_Charge14.mat",
+      "size": 2847,
+      "sha256": "a37a5b9a0406e9e7435c4629b075968e4c216bed6250bffaa956e7e40c9c7d99",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/82a1d8aa-79f9-41ca-a54d-86fa1a84010d/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_15.06 562_Mixed8_40degC_LGHG2.mat",
+      "size": 270855,
+      "sha256": "dcaa9e8d075592a60b76f1fce57a3ec08f06e6ea40da7f79f7b57bbd92f44931",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/91774bdf-6a08-4861-9bbf-9e22a4c8eb00/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_15.31 562_Charge15.mat",
+      "size": 2905,
+      "sha256": "4926289dc89a8b1e05f9d1783e930a6babf4f85efbf55d346c213a310140f720",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/dd17072d-5499-44d3-bcf9-fdf221184eb5/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_17.50 562_PausCycl_40degC_LGHG2.mat",
+      "size": 100477,
+      "sha256": "79465f8e131704728a31a7ca251168324fb9468cb6dcac44fef651a839b235f3",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a2aff02c-9b9c-461c-a2fd-bc2e5f33d011/file_downloaded"
+    },
+    {
+      "folder": "40degC",
+      "filename": "11-08-18_18.04 562_Charge16.mat",
+      "size": 2432,
+      "sha256": "55afdd69c683a73a4703f0e967c77a14118efca3edf983aa16700abd81fcfb1d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a09e8ce5-c32f-483e-9698-b2c30c0c80f2/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-04-18_22.00 593_HPPC_n10degC_LGHG2.mat",
+      "size": 643941,
+      "sha256": "4459c01a348288d65437a62ec3b77539946c084a214759213066ffb29713ce35",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4430fe0d-a71a-4d3b-9846-468b81cc18ff/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-05-18_20.13 593_C20DisCh_n10degC_LGHG2.mat",
+      "size": 68408,
+      "sha256": "23fa8f5b3dbd923f42353389e26db3adc0d8c5808713c24b3d9758607d79fc73",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/0c14ca07-c485-47b4-a4c7-e66c20f33481/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-07-18_08.55 593_Dis_0p5C_n10degC_LGHG2.mat",
+      "size": 9594,
+      "sha256": "a740c7eca2970a7e558b310d1c407f4cbabdad7b21086d0cdd7c7778721d985d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/3fa76273-a8b8-4432-bd9b-a263fcf8a249/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-07-18_13.54 593_Dis_2C_n10degC_LGHG2.mat",
+      "size": 6355,
+      "sha256": "74c8bf5a91569932fd3a87118c41c0099199c14caab5b52a184aee948477d909",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/87a2c77b-8a4a-477e-976a-5f5e23ae30a0/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-07-18_17.27 596_Charge1.mat",
+      "size": 2985,
+      "sha256": "c9dbea64ff2b33ceea3326acbdd92a891c82dd334faf6bd611c2e27e23d1d401",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/b2a2c6b1-6835-45ba-86b0-09d969586b29/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-07-18_19.33 596_Cap_1C_n10degC_LGHG2.mat",
+      "size": 10365,
+      "sha256": "29499e57ec2de033ea40bd2b4184715e44866e99b51335cb1bcc3066adf00699",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e8e2d95f-d834-4453-9e69-66dd74700869/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-07-18_20.30 596_Charge2.mat",
+      "size": 5587,
+      "sha256": "828067a088a0b88c5592b9d154bc9376f8ef54405b42c6c9614da0d2f3e9df9c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/0ec92109-f2ae-4b5d-8387-cceaf9ac74d5/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-07-18_23.49 596_UDDS_n10degC_LGHG2.mat",
+      "size": 3175623,
+      "sha256": "b9119d610690118aef0558db76005422ce07f65426f1eb7a114bf1cdb7f3afe3",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/16e44feb-45fa-4c90-a9d3-e31032c46f25/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-08-18_03.16 596_Charge3.mat",
+      "size": 5505,
+      "sha256": "d966f9d29455ec13ae0cfea240c99414a741d8eae3f5abf7527cab571bc855b3",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9c49052f-f0f0-4859-b404-ceaee2db02c6/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-08-18_06.34 596_HWFET_n10degC_LGHG2.mat",
+      "size": 1172435,
+      "sha256": "9d40d790480d8933c4874f09dd5751519e150f461fce66e8ebf5ac175c7a5275",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/b05c6dce-ef00-40da-9f31-d0cb7280bd0a/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-08-18_07.49 596_Charge4.mat",
+      "size": 5508,
+      "sha256": "edfc307c0dc23311a1193b6e6012899de2d824e19b2c9d3a1f6d03502b0d3c50",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/7ed46686-e1f6-4404-aedb-875d7480e8eb/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-08-18_11.07 596_LA92_n10degC_LGHG2.mat",
+      "size": 1864069,
+      "sha256": "c518e5041f2b070d34b45b3af6fd5d6ed377e8cabd23d6a280e556f55164bdf9",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a2d74c09-206d-447e-a84a-531fd8885821/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-08-18_13.08 596_Charge5.mat",
+      "size": 5439,
+      "sha256": "c91786022c1d56a6c7209cb905a5ee34e98aaf1a1b7f247f8648de8e7e452ad4",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/8d44f395-5f2f-436f-bdff-14e55a5316c0/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_03.03 601_US06_n10degC_LGHG2.mat",
+      "size": 845896,
+      "sha256": "cc3a0998370c7a27daf55dbd7a64d2be30493a22d9a9fd9ec8d08ae2fea83de6",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/95a53b81-ab4e-4ecb-bf89-c285e0f787d5/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_03.57 601_Charge6.mat",
+      "size": 5441,
+      "sha256": "067c1c35972e9063702263067bb46057b2545aa5971942a974ecad5309f8bf8d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/7bcf1eb2-dd48-41ad-b55f-ae33822a791f/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_07.14 601_Mixed1_n10degC_LGHG2.mat",
+      "size": 1629740,
+      "sha256": "46f44d313eea163db719f28b9205cfc51af7e2166bf37e5705b3fbc8316907c7",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/985c58b8-4f8b-4dca-a429-2c8425b4a537/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_08.59 601_Charge7.mat",
+      "size": 5453,
+      "sha256": "830270e4a3fb429423c409558546f30fd5a42e3a08aeb06df46f7e7ba77d1745",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/3ddd80f8-8882-4906-a12e-2de8ede27a50/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_12.16 601_Mixed2_n10degC_LGHG2.mat",
+      "size": 1644789,
+      "sha256": "2bf9abee855bf62ac1fc45804e162c320068bda8244f288a45d21bd289d3d51b",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/0e337b6a-00da-48d1-85e9-c76f26cefe3c/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_14.06 601_Charge8.mat",
+      "size": 5489,
+      "sha256": "564935caf67d3ee2328c282caf4a56820ff004c31515781557ee74a05cda7ae5",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/54454ddf-8a33-4fad-8874-326da88a380b/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_17.24 602_Charge17.mat",
+      "size": 2849,
+      "sha256": "0de0ab1436b0ae1b0bdc9d34ac4dadaf96ec83817e07b385cda5cf5bcc52c71f",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/74ef4f20-592f-4bea-b8e5-239aa37e0aea/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_19.30 602_Cap_1C_n10degC_LGHG2.mat",
+      "size": 10036,
+      "sha256": "a92af2ab1e795e00ff43dc1bef38691a81969e585cd0768e7f64212e8a50aee3",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d7acd8f7-43e5-4e9d-bac5-3bfb9a5fab1d/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_20.26 602_Charge10.mat",
+      "size": 5539,
+      "sha256": "85b17e443ab6df6b9373cc8f323f7ea07423640a6b2808ad1a8d70d387311aae",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/7156fb35-5f24-4604-bb1d-03dad5432569/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-15-18_23.45 602_Mixed4_n10degC_LGHG2.mat",
+      "size": 1600079,
+      "sha256": "91516617c715ad60c3f9d60138d49f5022680f9dd179d4b5ab243598cbf7e765",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e09c6b74-47b8-4810-bf41-c06c04a26b22/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-16-18_01.35 602_Charge11.mat",
+      "size": 5496,
+      "sha256": "23147a26a61e0d4f194137cfeff7c53c3a381481c36b1274cb2738db7f653c3e",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9e886fbd-9827-4f8b-9f8c-e64f63681c4d/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-16-18_04.52 602_Mixed5_n10degC_LGHG2.mat",
+      "size": 1519393,
+      "sha256": "d82aedae4b014716581bfe3e883bc2db398da3be099ff0a4c7217601481901fd",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/870e05b8-97c2-49d4-81ab-83403a90ab4a/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-16-18_06.34 602_Charge12.mat",
+      "size": 5457,
+      "sha256": "2d38eaa91024562950971aa671ea0dc695d0aaab4e1666d87608ed51ce769111",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/329129b4-ce5d-4ee4-8f66-0ad7f878850c/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-17-18_19.32 604_Charge17.mat",
+      "size": 3294,
+      "sha256": "10a8dbf77c195be61f5807def7be0e4e66963d5250651a21f28a41572ad3e56e",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/3552988f-dded-4a8b-a1f6-977d4f0f0130/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-17-18_22.42 604_Charge9.mat",
+      "size": 5637,
+      "sha256": "d06a95fddbe1892698ceedb72cdbca6306e1922c70e7c566d8b5898c01a96d8c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/90fda380-71a1-4b41-b2fc-b94d0d7697e9/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_02.00 604_Mixed3_n10degC_LGHG2.mat",
+      "size": 1426771,
+      "sha256": "4fa9709872ec44e06ca509d36321a8de674453d2477091ede524802cb57cf800",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/71c1bc1a-ec25-4aef-940a-f9143c9c42ea/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_03.33 604_Charge10.mat",
+      "size": 5461,
+      "sha256": "d3f0d2d84f94334f3bf38f230cf0cbafd0985480c29a0fbcd96676e552fb9514",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/fd92b570-8f70-42b2-97d1-f4aaa7dfe93d/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_06.50 604_Mixed6_n10degC_LGHG2.mat",
+      "size": 1454218,
+      "sha256": "344263c1b1824fdc86fb1eaf70ab306ce6d85ae76f2e678f53d313504e1e7392",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/248e1493-8b7c-43c5-bf07-b2d8a57762d0/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_08.25 604_Charge13.mat",
+      "size": 5394,
+      "sha256": "22923447fba15939e721f2a7aebec655e5912e1c35acbfe3314c6b92348af694",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e96dd77a-fc94-4eae-9573-f4e0499a0672/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_11.41 604_Mixed7_n10degC_LGHG2.mat",
+      "size": 1446896,
+      "sha256": "22f453999aec62b28de61d7a4794417ddb015f447594a527ade10855f2ef1fd6",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/8f75341c-8780-498b-a6b1-428d33b5f9a3/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_13.16 604_Charge14.mat",
+      "size": 5381,
+      "sha256": "38ae4d820dbb300e1597851b954e0f1ae6219507d676c07eb11ae04575686350",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/218d70d5-ba12-4943-8a4d-564d37d3665f/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_16.32 604_Mixed8_n10degC_LGHG2.mat",
+      "size": 1756530,
+      "sha256": "276efe0f73ed81dd0653c062bca3e8a24371f2d99a7382d92ffb24ece99e759c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/819f02bd-a31d-4d31-a958-a4e49b371955/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_18.26 604_Charge15.mat",
+      "size": 5437,
+      "sha256": "cfdd829ecb188b688f3d0460f2cdb39e5f408a07e66c1ae406f2e4d1c868b7b9",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/fb6a483c-7e77-43eb-b77e-ca96cfb43604/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_21.42 604_PausCycl_n10degC_LGHG2.mat",
+      "size": 504297,
+      "sha256": "def20b5df6e21c48e933ab55c3af6c4060e699eca6e3f0acf5242b78679cff06",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/060b7da5-e080-4bb4-82dd-a80acab1f484/file_downloaded"
+    },
+    {
+      "folder": "n10degC",
+      "filename": "12-18-18_22.20 604_Charge16.mat",
+      "size": 3745,
+      "sha256": "7f2438fc7084bfdad3f5a20b9ffa9120ce7770b7ee73e112be57c5fb965a5672",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/95a1e79c-f7fb-40bd-b7fa-1aa047a03a72/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-21-18_13.25 607_HPPC_n20degC_LGHG2.mat",
+      "size": 567578,
+      "sha256": "64206d3a4c7afe61c8ab82a537609d9d240a1700af3ffc0ab9091529b35cdab1",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/094e54ca-966b-4460-9d4a-72261b0c331a/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-22-18_09.52 607_C20DisCh_n20degC_LGHG2.mat",
+      "size": 64892,
+      "sha256": "7bd2e746c8b52b11d840e8ae8c489f023d3cb06e3eab03f0b7d16ee2b83600f8",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/38c322ef-ac66-4c07-8c2e-ac9a752b6e40/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-22-18_21.39 607_Dis_0p5C_n20degC_LGHG2.mat",
+      "size": 8602,
+      "sha256": "25b25059b0143153ac2fc3cfeb00eb6c219bebaa3bcd54f55ecfd5b3036e5dad",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/cfd8525b-e1d9-45d7-8ba4-c4d54bd7b238/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-1822.25 610_Charge5.mat",
+      "size": 5316,
+      "sha256": "4562f7453eb865793c1e978d40307e484be50de1b02cec368b8fc944a44b4584",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/828c6932-32ae-4c7f-9fbc-016f8c66ab7a/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_02.18 607_Dis_2C_n20degC_LGHG2.mat",
+      "size": 5633,
+      "sha256": "2e087344f2dcdb20c44f03876a7a77d8368a0364ea291c96fc9694799aecb020",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/3516a597-44ee-4270-9d77-bce44b369a65/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_05.33 610_Charge1.mat",
+      "size": 3017,
+      "sha256": "b6748d3d1ca91dc84e528aeb657d9ab6a550f503f5256657cf5ccf36cc918d29",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e37b9cd5-a338-4f3d-bc17-a66a5c713a8b/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_07.38 610_Cap_1C_n20degC_LGHG2.mat",
+      "size": 8318,
+      "sha256": "d1343f0ff6b563e0862ffa81113abe43cfdedf34b59f040d5838380c74197aea",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/f323764c-bafb-4b24-b6e8-3ff29b4be3ff/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_08.23 610_Charge2.mat",
+      "size": 5384,
+      "sha256": "8e8bd74d55270848790dbdbe4ab3089d0b1392cd95c1c2c0fc69462a876a5771",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/e1753949-ac07-46b8-9646-803159deb94e/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_11.30 610_UDDS_n20degC_LGHG2.mat",
+      "size": 2129603,
+      "sha256": "30bd81b4ced80a042697f880d634ccf5863731d8fee67cfb17dd78c342abcd76",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/58fb35ea-f5b8-4345-b75a-4e6ca26ed716/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_13.48 610_Charge3.mat",
+      "size": 5356,
+      "sha256": "b2f6e457fe4b5fdccce781c353a8d6cafaa90de3487e452c17ec58c3ef8898b4",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a505694e-ff45-45d6-96a7-c04401dafdc7/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_16.54 610_HWFET_n20degC_LGHG2.mat",
+      "size": 876991,
+      "sha256": "692e14092a7eae34e2ff89b615e9f1822c47e2cd318fb69f2701f2dc9efedf0d",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/3b17e69b-1909-4362-a537-8d9071708593/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_17.51 610_Charge4.mat",
+      "size": 5180,
+      "sha256": "db8e14c586536f4f4e74a57f1ef852601f460486daa2e5e47ab6a08ffda8be0c",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/cc13414e-f106-445b-ac87-e79828804ece/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-24-18_20.56 610_LA92_n20degC_LGHG2.mat",
+      "size": 1350448,
+      "sha256": "3f064ce417368f72c9809fba0c97582e91616486f7b481f1b75bc877b000820e",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/dc5cc15e-150f-4950-b061-d78f5beed24d/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_01.31 610_US06_n20degC_LGHG2.mat",
+      "size": 703909,
+      "sha256": "f57a49fa17188e9e6de0322ef3ed32f4f1ac5f95994e9daec39841c147f14ef1",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9581df8e-a5e7-45a0-9605-34fc24990dc3/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_02.18 610_Charge6.mat",
+      "size": 5212,
+      "sha256": "51c3c0ef662544974d252a4f03cb03de644631ef606e766e813c70e8cee3c928",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/dad87189-29ea-4ce9-83db-bc6338e8f333/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_05.24 610_Mixed1_n20degC_LGHG2.mat",
+      "size": 1188649,
+      "sha256": "15fd73c2dbbb10ae6376134def99d395ba9d7e945c96bfb4950bda751d399927",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/a72678e6-751f-42e3-8731-44716ad1fac5/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_06.41 610_Charge7.mat",
+      "size": 5362,
+      "sha256": "a5bde128adfa211fa18d2db1d1466dc90241c88c4ccce77d2b986888b31f65cf",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/8a35f975-e727-4398-886d-31d7cbce541f/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_09.47 610_Mixed2_n20degC_LGHG2.mat",
+      "size": 1127159,
+      "sha256": "28fbbf20f1cf1cf4a52f1fcdc9b19cdc4585cf80d9eda0da67238b1a56831bad",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/76abb1b7-6aba-4bfb-9aae-051d32a43548/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_11.00 610_Charge8.mat",
+      "size": 5301,
+      "sha256": "95e37d201123b0e8f94396f067fb161947fd47900c9b71c12c57d89dcb5784e8",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/efaf0248-ddc2-4c87-a652-0e9b03c24fd9/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_14.07 611_Charge17.mat",
+      "size": 2999,
+      "sha256": "7282bb8e1341367947d309f9f7b8f3fd1907e4a62bee6c810267b3794a5155b3",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/2fbe42ab-b966-4028-bd79-443ce525ac2f/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_16.13 611_Cap_1C_n20degC_LGHG2.mat",
+      "size": 8151,
+      "sha256": "8bb84ab275c39da0c670d1ff3332e8a9418e2d57c04c44cef362ee5a6cc8c4f9",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/5ca43c52-aa92-447a-8d93-dbe939cffda3/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_16.57 611_Charge9.mat",
+      "size": 5323,
+      "sha256": "14d3a42bf8b4d744c76bd2806c516e443682441b2c749b5abc6f4ef35eb0fedb",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/ae5ac791-a473-4c16-8443-4f1d2d270664/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_20.04 611_Mixed3_n20degC_LGHG2.mat",
+      "size": 1165238,
+      "sha256": "980df6311acedae624de9d3e8fcd97c72c3f2fbbc812951ec46560394666aca9",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/c3e7e54b-2747-4c77-8881-a6ecae1acb7b/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-25-18_21.20 611_Charge10.mat",
+      "size": 5245,
+      "sha256": "be43ef5d7d203bda5a11bde8c9666a8f864bdc88fd688951c99ad8bd9870e233",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/774c7dec-a0cd-4c03-b5e4-4c9f9a3d4044/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_00.25 611_Mixed4_n20degC_LGHG2.mat",
+      "size": 1210387,
+      "sha256": "47461c2a2d8a048abeced1ecefb11c9581b6a4ddd00f016239b3fe8c6da9e489",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/330d0b62-e6da-4ef1-8968-84c0d47b8389/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_01.43 611_Charge11.mat",
+      "size": 5277,
+      "sha256": "b4eb7b1c0a6415e60d0ed1e787eefacb499a2a18a180bb88610d58c1aae509be",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/4630001c-d9a4-4fcc-a04e-5c8acdd7b67d/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_04.48 611_Mixed5_n20degC_LGHG2.mat",
+      "size": 1183522,
+      "sha256": "a77afdde0009cf9d9424deb2ce4ea65b8380fc77d492375293536b354d140885",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/729cd690-3221-4ba2-8fee-b33cda490b4c/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_06.05 611_Charge12.mat",
+      "size": 5258,
+      "sha256": "ea4a8ef24311e0c5937b31928e8d03fddd7738e8f838a4155db6d78fd8e9fb79",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d2b20a92-d66f-4189-9a4a-509e5ce89037/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_09.11 611_Mixed6_n20degC_LGHG2.mat",
+      "size": 1149576,
+      "sha256": "1efb10218e6bc7aa1fc59733f895f56b6ed0307f28fc7a255d91ae485e21ed80",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/f01b9b9e-5253-48a5-8fd1-7cd7e42311b0/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_10.25 611_Charge13.mat",
+      "size": 5244,
+      "sha256": "2001f110bcceabb71653caa10294740b50e9042b7d933047fc2f09c2ac6270ac",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/5a08973f-f03d-42a3-ba1e-4b938cff08ed/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_13.31 611_Mixed7_n20degC_LGHG2.mat",
+      "size": 1055420,
+      "sha256": "45d52c168ec9fbef82ef22907e1c26f40d5c2529f068b8a6e08bcb31efb7b3aa",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/d78e4089-b2f5-4400-8a1d-31a867c174c4/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_14.40 611_Charge14.mat",
+      "size": 5183,
+      "sha256": "63d24fed7e89a31d74d5cf14f06da6f2dfd11a78959a471e081dbca662898ca0",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/9576f181-11bf-43bb-8c66-19a25aa606c6/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_17.45 611_Mixed8_n20degC_LGHG2.mat",
+      "size": 1224175,
+      "sha256": "9ab696362a9abaa7eefce0eba8384715dcf9a4486d874214b241d957a73e4047",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/ff60255f-65a9-429d-882f-c6252b128128/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_19.04 611_Charge15.mat",
+      "size": 5237,
+      "sha256": "ebc155c5c123be0ba9c9c40f733f646db44256611a93f480a5a52a7a2cc035c7",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/413f9497-1014-4616-aa8e-773d0a26810d/file_downloaded"
+    },
+    {
+      "folder": "n20degC",
+      "filename": "12-26-18_22.10 611_PausCycl_n20degC_LGHG2.mat",
+      "size": 360846,
+      "sha256": "7a2bd9e4e1d43e080c9bfba36e2b81bed2625848ec8bf894fa6bf936032781aa",
+      "url": "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/1b7a9d87-e0b7-4d8e-a163-dc5ac3bb94fd/file_downloaded"
+    }
+  ]
+}
