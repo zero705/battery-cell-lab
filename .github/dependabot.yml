@@ -5,11 +5,15 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
-    # A release is proposed only once it is a week old, so that a compromised release that is
-    # pulled within days never reaches this repository.
+    # A release is only suggested once it is a week old, so a bad release that gets pulled
+    # within a few days never reaches this repository.
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
+    # One pull request a month for all of them, tested together.
+    groups:
+      python:
+        patterns: ["*"]
 
   - package-ecosystem: github-actions
     directory: "/"
@@ -17,3 +21,8 @@ updates:
       interval: monthly
     cooldown:
       default-days: 7
+    # All actions in one pull request: the CodeQL init and analyze steps must keep the same
+    # version, so they can't be updated one at a time.
+    groups:
+      actions:
+        patterns: ["*"]
