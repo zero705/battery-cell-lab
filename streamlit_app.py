@@ -8,6 +8,7 @@ from __future__ import annotations
 import gzip
 import io
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -170,8 +171,8 @@ def run_drive(
 
 
 def reference_capacity_ah() -> float:
-    """The charge between full and 2.8 V in the 25 degC C/20 test: where the 25 degC
-    open-circuit voltage curve ends."""
+    """Where the 25 degC open-circuit voltage curve ends: the charge of the 25 degC C/20
+    discharge to 2.8 V, on the curve's 5 mAh grid (2.775 Ah)."""
     data = get_model_data()
     for entry in data["temperatures"]:
         if entry["ambient_c"] == 25.0:
@@ -213,12 +214,17 @@ def line_chart(frame: pd.DataFrame, x: str, y: str, colour: str | None, title: s
     return chart
 
 
+def validation_tests() -> int:
+    """How many drive-cycle tests the model was checked on."""
+    return len(json_validation()["variants"]["charge_transfer"])
+
+
 def sidebar() -> None:
     st.sidebar.header("Battery Cell Lab")
     st.sidebar.markdown(
         "A model of one LG 18650HG2 lithium-ion cell (3 Ah, NMC / graphite + SiO), identified "
-        "from McMaster University's laboratory tests and checked on 63 drive-cycle tests "
-        "from -20 to 40 °C."
+        f"from McMaster University's laboratory tests and checked on {validation_tests()} "
+        "drive-cycle tests from -20 to 40 °C."
     )
     st.sidebar.markdown(
         https_link("Source code and method", REPOSITORY)
@@ -382,13 +388,28 @@ def tab_circuit() -> None:
     )
 
 
+def current_limits(t_c: float) -> str:
+    """The tests' current limits at a temperature, in words."""
+    discharge, charge = lab.discharge_limit_a(t_c), lab.regen_limit_a(t_c)
+    if math.isinf(discharge):
+        return (
+            f"the charging current of regenerative braking is limited to {charge:g} A; the "
+            "discharge current is not limited"
+        )
+    return (
+        f"the discharge current is limited to {discharge:g} A and the charging current of "
+        f"regenerative braking to {charge:g} A"
+    )
+
+
 def tab_lab() -> None:
     st.markdown(
         "Drive the cell with a car's power demand, the way the laboratory did: the same power "
-        "profile, computed for one cell of a compact electric car, over and over. When the "
-        "cell cannot give the power without falling below 2.8 V, it gives what it can at 2.8 V, "
-        "as the tester did; the drive ends with the first cycle in which it gives less than "
-        f"{lab.MIN_SHARE:.0%} of the energy the cycle asks for."
+        "profile, computed for one cell of a compact electric car, over and over. The tester "
+        "limited the current in the cold and never let the voltage fall below 2.8 V; when the "
+        "cell cannot give the power within these limits, it gives what it can. The drive ends "
+        f"with the first cycle in which it gives less than {lab.MIN_SHARE:.0%} of the energy the "
+        "cycle asks for."
     )
     c1, c2, c3 = st.columns(3)
     cycle = c1.selectbox(
@@ -412,21 +433,26 @@ def tab_lab() -> None:
     st.altair_chart(line_chart(trace, "hours", y, None, y), width="stretch")
     st.caption(
         f"The cell is held at {t_c} °C and gave {summary['share']:.1%} of the discharge "
-        "energy demanded. Regenerative braking is limited to "
-        f"{lab.regen_limit_a(float(t_c)):g} A of charging current, as the tests limited it at "
-        "this temperature. State of charge is counted against the 25 °C capacity. The trace "
-        "is shown every 5 s; the model runs every second."
+        f"energy demanded. As in the tests at this temperature, {current_limits(float(t_c))}. "
+        "State of charge is counted against the 25 °C capacity. The trace is shown every 5 s; "
+        "the model runs every second."
     )
 
 
+US06_COLD_SHARE_MEASURED = 0.82  # tests/test_raw_data.py recomputes it from the raw data
+
+
 def tab_cold() -> None:
+    modelled = run_drive("US06", -20.0, 1.0)[0]["share"]
     st.markdown(
         "The same drive at six temperatures. In the cold the cell's resistance rises, so the "
         "voltage sags further under the same power, the current must rise to make up for it, "
         "and the 2.8 V limit comes sooner: the cell gives less of its energy, and more of it "
-        "turns into heat. At -20 °C the cell cannot keep up with the hard accelerations of "
-        "US06 at all; in the laboratory test it delivered 82 % of the power the first cycle "
-        "asked for, and the model gives 87 %."
+        "turns into heat. The tests also limited the current in the cold. On US06 at -20 °C "
+        "the cell falls behind from the first cycle: in the laboratory test it delivered "
+        f"{US06_COLD_SHARE_MEASURED:.0%} of the discharge energy the first cycle asked for, and "
+        f"the model gives {modelled:.0%}. At 40 °C the cell gives a little less than at 25 °C on "
+        "three of the cycles, as in the data, where it gave less charge at 40 °C."
     )
     cycle = st.selectbox(
         "Drive cycle", CYCLES, format_func=CYCLE_LABELS.__getitem__, key="cold_cycle"
@@ -568,9 +594,9 @@ pairs, all functions of the charge removed and the temperature.
 voltages. Circuit parameters fitted to every state of charge of the HPPC test by variable
 projection with non-negative least squares, from several starting points.
 
-**Validation.** 63 drive-cycle tests the identification never saw, with measured current and
-temperature as inputs; five tests of the dataset are unusable and are listed in the
-repository with the reason.
+**Validation.** {validation_tests()} drive-cycle tests the identification never saw, with
+measured current and temperature as inputs; {len(json_validation()["excluded"])} tests of the
+dataset are unusable and are listed in the repository with the reason.
 
 The full account: {https_link("README and docs", REPOSITORY)}.
 """

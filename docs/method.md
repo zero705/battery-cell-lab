@@ -2,7 +2,8 @@
 
 How the model is built from the test data and how it was checked. The dataset and its problems
 are in [data.md](data.md). The tables marked as generated are written by `tools/update_docs.py`
-from `data/`, and `tests/test_docs.py` fails if they fall out of date.
+from `data/`, and `tests/test_docs.py` fails if they fall out of date; it also checks the other
+numbers of this page against `data/`, and `tests/test_raw_data.py` those about the raw data.
 
 ## 1. The model
 
@@ -21,7 +22,7 @@ RC pairs are the slower polarisation, one over seconds and one over minutes.
 The RC pairs are advanced exactly over each sample interval with the current held:
 u[n+1] = a u[n] + R (1 - a) i[n], a = exp(-dt/tau), so the result does not depend on the step
 length (`tests/test_ecm.py` checks this against the closed-form step response). R = 8.314462618
-J/(mol K) and F = 96485.33212 C/mol are the exact SI values.
+J/(mol K) and F = 96485.33212 C/mol are the exact SI values to ten significant digits.
 
 The parameters R0, R1, tau1, R2, tau2 and i0 are tables over q at each of the six test
 temperatures. Between states of charge they are interpolated linearly in q; between temperatures
@@ -31,11 +32,11 @@ range the values are held at the nearest end.
 
 ## 2. Open-circuit voltage
 
-Two tests measure it, and neither alone is enough. The HPPC test rests the cell for an hour at
-each of 11 or 12 states of charge: the voltage at the end of each rest is the open-circuit
-voltage after discharging, but only at those points. The C/20 test discharges the cell at
-0.15 A and traces the whole curve, but under current, below the open-circuit voltage by the
-cell's polarisation at 0.15 A.
+Two tests measure it, and neither alone is enough. The HPPC test rests the cell for an hour
+after each of its 9 to 11 steps down in state of charge: the voltage at the end of each rest,
+and at the start of the test, is the open-circuit voltage after discharging, but only at those
+10 to 12 points. The C/20 test discharges the cell at 0.15 A and traces the whole curve, but
+under current, below the open-circuit voltage by the cell's polarisation at 0.15 A.
 
 The curve used takes the shape of the C/20 discharge and moves it onto the rest points: the
 C/20 voltage plus an offset that passes through every rest point, interpolated between them by a
@@ -48,23 +49,26 @@ the others (leave one out, 56 points over the six temperatures):
 | Monotone cubic through the rest points alone | 17.8 mV | 40 mV |
 | Straight lines between the rest points | 25.6 mV | 70 mV |
 
-The first two figures are recomputed by `tests/test_raw_data.py`; the model uses every rest
-point, so its error between points is smaller than the leave-one-out figure. The largest errors
-are at the lowest state of charge, where the curve is steepest.
+The model uses every rest point, so its error between points is smaller than the leave-one-out
+figure. The largest error at each temperature is at one of the three lowest states of charge
+predicted, near empty, where the curve is steepest.
 
 Only the discharge half of the C/20 test is used. At 0.15 A the cycler's current accuracy
-(0.1 % of its 75 A range, 75 mA) makes the charge counted on the way down and on the way back
-up disagree by up to 0.19 Ah, while the HPPC steps, at 0.9 A and more, count consistently with the
-C/20 discharge (2.777 and 2.779 Ah to 2.8 V at 25 °C).
+(0.1 % of its 75 A range, ±75 mA) is half the current itself, and the charge counted on the way
+down and on the way back up disagrees by up to 0.19 Ah. The HPPC steps, at 0.87 to 0.9 A, count
+consistently with the C/20 discharge: at 25 °C, where both end at 2.8 V, they remove 2.776 and
+2.779 Ah.
 
 ## 3. Identification
 
-At every state of charge the HPPC test runs four discharge pulses of 10 s (1, 2, 4 and 6C from
-0 °C up; smaller in the cold), each followed by 40 s of rest and a 10 s charge pulse, then a
-10-minute rest; then a 0.3C discharge to the next state of charge and an hour of rest. One fit
-window runs from the end of one hour-long rest to the end of the next. A window with no charge
-pulse holds no pulse set and is dropped; a window whose step discharges the cell to the 2.8 V
-cut-off ends before that step, since the cell is far from linear there.
+At every state of charge the HPPC test runs four pulse pairs, each a 10 s discharge pulse, 40 s
+of rest, a 10 s charge pulse and 10 minutes of rest; then a 0.3C discharge to the next state of
+charge and an hour of rest. The discharge pulses are 1, 2, 4 and 6C from 0 °C up, 0.5 to 4C at
+-10 °C and 0.25 to 2C at -20 °C (1C is 3 A, and 2.9 A at 10 °C); the charge pulses reach 2C from
+10 °C up, 1C at 0 and -10 °C and 0.5C at -20 °C. One fit window runs from the end of one
+hour-long rest to the end of the next. A window with no charge pulse holds no pulse set and is
+dropped; a window whose step discharges the cell to the 2.8 V cut-off ends before that step,
+since the cell is far from linear there.
 
 In each window the parameters are fitted by least squares to the measured voltage, sample by
 sample. For given tau1, tau2 and i0 the voltage is linear in R0, R1 and R2, so these are solved
@@ -72,18 +76,18 @@ exactly with non-negative least squares at every trial (variable projection), an
 over tau1 (0.1-20 s), tau2 (20-2000 s) and i0 (0.005-100 A) only, from twelve starting points,
 keeping the best. The window starts from rest, with the RC voltages at zero.
 
-Two choices were made after a first run of the model on all drive cycles showed its largest
-errors at the end of discharge (section 5):
+Two choices were made after a first run of the model on all drive cycles (section 5):
 
 - **A straight-line correction to the open-circuit voltage within each window**, fitted with the
   resistances. Without it, an error in the slope of the open-circuit curve inside the window,
-  largest near empty, is taken up by the slow RC pair, which then acts as a very large capacitor.
-  The correction only serves the fit; the model uses the curve of section 2.
-  `tests/test_identify.py` checks that a 0.1 V/Ah slope error no longer biases the parameters.
+  largest near empty, is taken up by the slow RC pair, whose resistance and time constant then
+  grow well beyond the cell's: in `tests/test_identify.py` a slope error of 0.1 V/Ah triples
+  both, and with the correction the fit recovers every parameter within 2 %. The correction only
+  serves the fit; the model uses the curve of section 2.
 - **Identifiability.** A time constant can only be identified from a relaxation at least as long
   as itself. A level whose tau2 is longer than the longest rest in its window is not used. This
   drops the lowest state of charge at 10, 25 and 40 °C, whose window ends with a 10-minute rest
-  and where the fit put tau2 at 630-930 s.
+  and where the fit put tau2 at 634 to 934 s.
 
 `tests/test_identify.py` generates the voltage of a cell with known parameters and checks that
 the fit recovers all six within 2 %, at -20 and 25 °C.
@@ -101,10 +105,10 @@ The parameters at the state of charge nearest half full:
 | 40 °C | 38.6 °C | 14.7 mΩ | 3.6 mΩ | 4.2 s | 18 mΩ | 64 s | 13.4 A | 2.2 mV |
 <!-- end generated -->
 
-i0 rises from 0.2 A at -20 °C to about 13 A from 10 °C up, as the Arrhenius law has it. At an
-i0 of 15 A the charge-transfer term amounts to 1.7 mΩ at small currents (RT/F i0 at 25 °C),
-against about 17 mΩ for R0, so there i0 is weakly determined (in some windows the fit reaches
-the 100 A bound) and the term hardly matters.
+i0 rises from 0.2 A at -20 °C to 13 to 14 A from 10 °C up, as the Arrhenius law has it. With
+i0 = 13.4 A, its value at 25 °C, the charge-transfer term amounts to 1.9 mΩ at small currents
+(RT/(F i0)), against 17.6 mΩ for R0, so there i0 is weakly determined (in 10 of the 60 levels
+used, all at 0 °C and above, the fit reaches the 100 A bound) and the term hardly matters.
 
 ## 4. Two circuits
 
@@ -119,45 +123,57 @@ model gets the measured current and the measured case temperature, starts from r
 removed, and predicts the voltage, which is compared with the measurement sample by sample over
 the whole test, including the rest at its end.
 
-**Protocol.** The first model, without the two choices of section 3, was run once on all 63
-tests; its median error was 57 mV, mostly at the end of discharge and in the relaxation after the
-test. The tests were then split: the Mixed1-4 cycles (21 tests) became the development set, on
-which the candidate changes were compared; the other 42 tests became the test set, run only with
-the final model. On the development set, the RMS of the per-test errors went from 73.6 mV for
-the first model to 42.0 mV with both choices. A straight-line correction alone gave 51.6 mV and
-dropping the lowest state of charge at every temperature 44.7 mV; interpolating the parameters
-in log(q) instead of q helped the first model (63.7 mV) but not once the lowest levels were dealt
-with (44.5 mV). These comparisons were run while building the model; the code keeps only the
-final choices.
+**Protocol.** The first model, without the two choices of section 3, was run once on all 62
+tests. Its median error was 57.1 mV, and much of it came after the drive: in the median test,
+40 % of its squared error lies in the rest after the drive and 15 % in the last tenth of the
+discharge. The tests were then split: the Mixed1-4 cycles (20 tests) became the development set,
+on which the candidate changes were compared, and the other 42 tests the test set, run only with
+the final model. On the development set:
+
+<!-- generated: development -->
+| Model | Levels used | Median error | RMS of the per-test errors |
+|---|---|---|---|
+| First: no slope correction, every level | 63 | 60.6 mV | 73.8 mV |
+| Slope correction only | 63 | 46.8 mV | 50.4 mV |
+| Identifiability rule only | 59 | 38.4 mV | 43.4 mV |
+| Both (the model) | 60 | 29.8 mV | 39.9 mV |
+<!-- end generated -->
+
+`tools/compare_variants.py` reruns these comparisons from the raw data
+(`data/development.json`). They were first made with the -10 °C Mixed4 test in the development
+set; a gap in its data, found later ([data.md](data.md)), took it out of the comparisons and the
+results alike, and the figures here are for the tests left.
 
 **Results.** Median RMS error per test:
 
 <!-- generated: results -->
-| Chamber temperature | Tests | Median error, development set | Median error, test set | Worst test | Median error, two RC pairs only |
-|---|---|---|---|---|---|
-| -20 °C | 12 | 63.6 mV | 60.0 mV | 87.2 mV | 69.7 mV |
-| -10 °C | 12 | 49.0 mV | 42.8 mV | 74.6 mV | 47.1 mV |
-| 0 °C | 11 | 26.6 mV | 26.1 mV | 50.7 mV | 25.5 mV |
-| 10 °C | 10 | 29.3 mV | 23.8 mV | 51.9 mV | 26.1 mV |
-| 25 °C | 11 | 27.9 mV | 20.7 mV | 55.8 mV | 26.9 mV |
-| 40 °C | 7 | 18.0 mV | 15.4 mV | 31.1 mV | 16.6 mV |
-| **All** | **63** | **30.3 mV** | **28.6 mV** | **87.2 mV** | **29.3 mV** |
+| Chamber temperature | Tests | Median error, development set | Median error, test set | Median error, all tests | Worst test | Median error, two RC pairs only |
+|---|---|---|---|---|---|---|
+| -20 °C | 12 | 63.6 mV | 60.0 mV | 60.7 mV | 87.2 mV | 69.7 mV |
+| -10 °C | 11 | 45.6 mV | 42.8 mV | 43.6 mV | 74.6 mV | 46.4 mV |
+| 0 °C | 11 | 26.6 mV | 26.1 mV | 26.6 mV | 50.7 mV | 25.5 mV |
+| 10 °C | 10 | 29.3 mV | 23.8 mV | 26.2 mV | 51.9 mV | 26.1 mV |
+| 25 °C | 11 | 27.9 mV | 20.7 mV | 27.0 mV | 55.8 mV | 26.9 mV |
+| 40 °C | 7 | 18.0 mV | 15.4 mV | 16.7 mV | 31.1 mV | 16.6 mV |
+| **All** | **62** | **29.8 mV** | **28.6 mV** | **29.0 mV** | **87.2 mV** | **29.3 mV** |
 <!-- end generated -->
 
-The test set does as well as the development set, so the choices did not merely fit the
-development cycles.
+The test set does as well as the development set (median 28.6 against 29.8 mV), so the choices
+did not merely fit the development cycles.
 
 **A check against the dataset's own report.** The dataset's technical report gives the
 10-second discharge resistance at 50 % state of charge: 179.3, 89.8, 53.0, 36.7, 27.2 and
 23.6 mΩ from -20 to 40 °C, with pulses of 0.25C at -20 °C, 0.5C at -10 °C and 1C above. Read from
 the raw pulses at the same state of charge, the five values at -20, -10, 0, 25 and 40 °C agree
-within 0.5 mΩ (`tests/test_raw_data.py`); at 10 °C the 1C pulse there reads 38.0 mΩ, 1.3 mΩ
-above the report.
+within 0.5 mΩ; at 10 °C the 1C pulse there reads 38.0 mΩ, 1.3 mΩ above the report.
 
-**Where the error comes from.** See the README: the end of discharge from 0 °C up, and charging
-during regenerative braking in the cold, which the HPPC test covers only with small pulses.
-Heating of the cell's core above its case was checked as another cause and ruled out: feeding the
-model the case temperature plus 2, 4 or 6 °C makes the -20 °C error larger, not smaller.
+**Where the error comes from.** See the README: the end of discharge from 10 °C up, charging
+during regenerative braking in the cold, and the hard accelerations of US06. There, a sample
+counts as charging or discharging when more than 0.3 A flows, and the end of discharge is the
+last tenth of the charge a test removes (`celllab/validation.py`; `data/validation.json` holds
+these figures for every test). Heating of the cell's core above its case was checked as another
+cause and ruled out: feeding the model the case temperature plus 2, 4 or 6 °C raises the median
+error of the twelve -20 °C tests from 60.7 mV to 79.1, 105.8 and 135.9 mV.
 
 ## 6. Every test
 
@@ -183,7 +199,6 @@ model the case temperature plus 2, 4 or 6 °C makes the -20 °C error larger, no
 | -10 | Mixed1 | development | 1.74 | 2.13 | 45.6 mV | 89 mV | 224 mV | 50.7 mV |
 | -10 | Mixed2 | development | 1.81 | 2.13 | 43.2 mV | 90 mV | 260 mV | 47.9 mV |
 | -10 | Mixed3 | development | 1.53 | 2.11 | 52.4 mV | 101 mV | 242 mV | 53.0 mV |
-| -10 | Mixed4 | development | 1.82 | 2.00 | 72.6 mV | 121 mV | 279 mV | 69.4 mV |
 | -10 | Mixed5 | test | 1.67 | 2.12 | 43.6 mV | 86 mV | 286 mV | 43.3 mV |
 | -10 | Mixed6 | test | 1.55 | 2.11 | 55.3 mV | 119 mV | 301 mV | 57.4 mV |
 | -10 | Mixed7 | test | 1.55 | 2.11 | 47.5 mV | 100 mV | 252 mV | 46.4 mV |
@@ -233,20 +248,25 @@ model the case temperature plus 2, 4 or 6 °C makes the -20 °C error larger, no
 
 The tests drove the cell with a power profile "calculated for a single LG HG2 cell in a compact
 electric vehicle" (the dataset's readme), not with a current. `data/profiles.csv` holds one
-period of each standard cycle from the 40 °C tests (the only temperature with all four usable
-and no limit on regenerative braking), found as the peak of the power trace's autocorrelation:
-1370 s (UDDS), 766 s (HWFET), 1438 s (LA92) and 601 s (US06). The tests at -20, 0 and 25 °C
-follow the same profiles (correlation 0.93 to 0.999 with the 40 °C test over the first period),
-apart from two things the testers did in the cold: they limited the charging current of regenerative braking (the largest in the data:
-1.5 A at -20 °C, 3 A at -10 and 0 °C, 6 A from 10 °C), and at -20 °C the cell could not always
-deliver the power, so the cycler held it at 2.8 V.
+period of each standard cycle as the 40 °C tests applied it (the only temperature with all four
+usable), found as the peak of the power trace's autocorrelation: 1370 s (UDDS), 766 s (HWFET),
+1438 s (LA92) and 601 s (US06). The tests at the other temperatures follow the same profiles
+(correlation 0.93 to 0.999 with the 40 °C test over the first period), within limits the
+testers set on the current. They held the discharge current to 6 A at -20 °C and 12 A at
+-10 °C, and the charging current of regenerative braking to 1.5 A at -20 °C, 3 A at -10 and
+0 °C and 6 A from 10 °C up; in the data the current sits at these values for long stretches and
+passes them by at most 0.3 A, briefly. From 0 °C up the discharge followed the demand, up to
+18 A. And the cycler did not let the voltage fall below 2.8 V.
 
 The lab does the same. Each second the current is the one that gives the demanded power at the
-terminals; charging is capped at the tests' limit for the temperature and at 4.2 V; a demand the
-cell cannot meet above 2.8 V is cut to what it gives at 2.8 V. The cycle is repeated, and the
-drive ends with the first cycle in which the cell gives less than 90 % of the discharge energy
-the cycle demands, or when the charge removed reaches the end of the open-circuit curve at that
-temperature. The 90 % is a definition of the lab, not a property of the cell.
+terminals, within the current limits of the nearest tested temperature at or below the one
+chosen; charging is also capped at 4.2 V, and a discharge the cell cannot give above 2.8 V is
+cut to what it gives at 2.8 V. The cycle is repeated, and the drive ends with the first cycle in
+which the cell gives less than 90 % of the discharge energy the cycle demands, or when the charge
+removed reaches the end of the open-circuit curve at that temperature. The 90 % is a definition
+of the lab, not a property of the cell.
 
-As a check of this power-limited mode: in the -20 °C US06 test the cell gave 82 % of the
-first period's discharge power; the lab, with the same demand at -20 °C, gives 87 %.
+As a check of this power-limited mode: in the -20 °C US06 test the limits held the cell to 82 %
+of the first period's discharge energy; the lab, with the same demand and limits at -20 °C,
+gives 79 %. The model's voltage runs low on US06 (section 5), so at 6 A it gives a little less
+power than the cell.

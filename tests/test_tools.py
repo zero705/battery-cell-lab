@@ -6,10 +6,14 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
+
+from celllab.measurements import Measurement
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
+import audit_dataset  # noqa: E402
 import fetch_dataset  # noqa: E402
 
 
@@ -54,6 +58,13 @@ def test_other_addresses_are_refused(url: str) -> None:
 def test_download_refuses_plain_http() -> None:
     with pytest.raises(fetch_dataset.DownloadError, match="non-HTTPS"):
         fetch_dataset.download("http://data.mendeley.com/x")
+
+
+def test_the_audit_finds_gaps_only_while_the_current_flows() -> None:
+    t = np.array([0.0, 0.1, 0.2, 100.0, 100.1, 200.0, 200.1])
+    current = np.array([-1.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0])
+    m = Measurement("m", t, np.ones(7), current, np.ones(7))
+    assert audit_dataset.logging_gaps(m) == [2]  # the second long interval is a rest
 
 
 def test_write_is_atomic_and_verification_catches_a_changed_file(tmp_path: Path) -> None:

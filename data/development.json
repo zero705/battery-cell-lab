@@ -1,0 +1,157 @@
+{
+ "development_tests": 20,
+ "variants": {
+  "first": {
+   "slope_correction": false,
+   "identifiability_rule": false,
+   "levels": 63,
+   "development": {
+    "median_mv": 60.643,
+    "rms_of_rms_mv": 73.847,
+    "rms_mv": {
+     "n20degC/Mixed1": 57.334,
+     "n20degC/Mixed2": 58.381,
+     "n20degC/Mixed3": 64.292,
+     "n20degC/Mixed4": 62.905,
+     "n10degC/Mixed1": 51.343,
+     "n10degC/Mixed2": 46.907,
+     "n10degC/Mixed3": 53.811,
+     "0degC/Mixed1": 108.66,
+     "0degC/Mixed2": 90.312,
+     "0degC/Mixed4": 98.602,
+     "10degC/Mixed1": 134.53,
+     "10degC/Mixed2": 111.57,
+     "10degC/Mixed4": 44.978,
+     "25degC/Mixed1": 55.78,
+     "25degC/Mixed2": 82.549,
+     "25degC/Mixed3": 30.444,
+     "25degC/Mixed4": 32.525,
+     "40degC/Mixed1": 70.545,
+     "40degC/Mixed2": 82.495,
+     "40degC/Mixed3": 24.558
+    }
+   }
+  },
+  "slope_correction": {
+   "slope_correction": true,
+   "identifiability_rule": false,
+   "levels": 63,
+   "development": {
+    "median_mv": 46.831,
+    "rms_of_rms_mv": 50.356,
+    "rms_mv": {
+     "n20degC/Mixed1": 60.127,
+     "n20degC/Mixed2": 56.74,
+     "n20degC/Mixed3": 68.834,
+     "n20degC/Mixed4": 67.0,
+     "n10degC/Mixed1": 45.551,
+     "n10degC/Mixed2": 43.195,
+     "n10degC/Mixed3": 52.359,
+     "0degC/Mixed1": 27.758,
+     "0degC/Mixed2": 23.218,
+     "0degC/Mixed4": 32.908,
+     "10degC/Mixed1": 84.61,
+     "10degC/Mixed2": 69.784,
+     "10degC/Mixed4": 33.883,
+     "25degC/Mixed1": 37.884,
+     "25degC/Mixed2": 58.638,
+     "25degC/Mixed3": 26.833,
+     "25degC/Mixed4": 28.362,
+     "40degC/Mixed1": 48.111,
+     "40degC/Mixed2": 58.013,
+     "40degC/Mixed3": 18.003
+    }
+   }
+  },
+  "identifiability_rule": {
+   "slope_correction": false,
+   "identifiability_rule": true,
+   "levels": 59,
+   "development": {
+    "median_mv": 38.392,
+    "rms_of_rms_mv": 43.407,
+    "rms_mv": {
+     "n20degC/Mixed1": 57.334,
+     "n20degC/Mixed2": 58.381,
+     "n20degC/Mixed3": 64.292,
+     "n20degC/Mixed4": 62.905,
+     "n10degC/Mixed1": 50.094,
+     "n10degC/Mixed2": 46.545,
+     "n10degC/Mixed3": 53.394,
+     "0degC/Mixed1": 38.47,
+     "0degC/Mixed2": 27.459,
+     "0degC/Mixed4": 44.589,
+     "10degC/Mixed1": 42.91,
+     "10degC/Mixed2": 34.729,
+     "10degC/Mixed4": 35.158,
+     "25degC/Mixed1": 34.062,
+     "25degC/Mixed2": 38.314,
+     "25degC/Mixed3": 30.676,
+     "25degC/Mixed4": 31.016,
+     "40degC/Mixed1": 29.266,
+     "40degC/Mixed2": 29.554,
+     "40degC/Mixed3": 24.558
+    }
+   }
+  },
+  "both": {
+   "slope_correction": true,
+   "identifiability_rule": true,
+   "levels": 60,
+   "development": {
+    "median_mv": 29.787,
+    "rms_of_rms_mv": 39.875,
+    "rms_mv": {
+     "n20degC/Mixed1": 60.127,
+     "n20degC/Mixed2": 56.74,
+     "n20degC/Mixed3": 68.834,
+     "n20degC/Mixed4": 67.0,
+     "n10degC/Mixed1": 45.551,
+     "n10degC/Mixed2": 43.195,
+     "n10degC/Mixed3": 52.359,
+     "0degC/Mixed1": 26.619,
+     "0degC/Mixed2": 23.363,
+     "0degC/Mixed4": 32.213,
+     "10degC/Mixed1": 33.534,
+     "10degC/Mixed2": 25.934,
+     "10degC/Mixed4": 29.281,
+     "25degC/Mixed1": 28.428,
+     "25degC/Mixed2": 30.293,
+     "25degC/Mixed3": 27.043,
+     "25degC/Mixed4": 27.337,
+     "40degC/Mixed1": 18.171,
+     "40degC/Mixed2": 15.837,
+     "40degC/Mixed3": 18.003
+    }
+   }
+  }
+ },
+ "first_on_every_test": {
+  "tests": 62,
+  "median_mv": 57.124,
+  "rms_of_rms_mv": 75.328,
+  "end_of_discharge_share": 0.15471,
+  "rest_after_share": 0.40377
+ },
+ "core_temperature": {
+  "tests": 12,
+  "offsets_c": [
+   0.0,
+   2.0,
+   4.0,
+   6.0
+  ],
+  "median_mv": [
+   60.749,
+   79.101,
+   105.82,
+   135.92
+  ],
+  "rms_of_rms_mv": [
+   64.247,
+   78.611,
+   107.16,
+   136.88
+  ]
+ }
+}

@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import math
+
 import numpy as np
 import pytest
 from conftest import TRUE, constant_table, linear_ocv
 
 from celllab import lab
-from celllab.ecm import CellModel, simulate_power
+from celllab.ecm import CellModel, Limits, simulate_power
 
 
 def test_profiles_hold_one_period_of_each_cycle() -> None:
@@ -30,6 +32,31 @@ def test_profiles_hold_one_period_of_each_cycle() -> None:
 )
 def test_regen_limit_follows_the_tests(temperature_c: float, limit: float) -> None:
     assert lab.regen_limit_a(temperature_c) == limit
+
+
+@pytest.mark.parametrize(
+    ("temperature_c", "limit"),
+    [(-30.0, 6.0), (-20.0, 6.0), (-15.0, 6.0), (-10.0, 12.0), (-5.0, 12.0), (0.0, math.inf)],
+)
+def test_discharge_limit_follows_the_tests(temperature_c: float, limit: float) -> None:
+    assert lab.discharge_limit_a(temperature_c) == limit
+    assert lab.discharge_limit_a(40.0) == math.inf
+
+
+def test_lab_limits_are_the_tests() -> None:
+    cold = lab.limits(-20.0)
+    assert cold == Limits(
+        min_voltage_v=2.8, max_charge_a=1.5, max_discharge_a=6.0, voltage_floor=True
+    )
+    assert lab.limits(25.0).max_voltage_v == 4.2
+
+
+@pytest.mark.parametrize("temperature_c", [-20.0, -10.0, 0.0])
+def test_cold_drives_keep_to_the_current_limits(model: CellModel, temperature_c: float) -> None:
+    d = lab.drive(model, lab.load_profiles()["US06"], "US06", temperature_c)
+    current = d.simulation.current_a
+    assert current.min() >= -lab.discharge_limit_a(temperature_c) - 1e-9
+    assert current.max() <= lab.regen_limit_a(temperature_c) + 1e-9
 
 
 def test_colder_drives_deliver_less_energy(model: CellModel) -> None:
@@ -56,12 +83,15 @@ def test_the_cell_never_discharges_below_the_cut_off(
     model: CellModel, cycle: str, temperature_c: float, start_ah: float
 ) -> None:
     """While charging, a cell polarised by a hard discharge may sit just below 2.8 V (the
-    first case does, by 0.8 mV); while discharging it never does."""
+    first case does, by 0.8 mV); while discharging it never does, nor does it ever go above
+    4.2 V: the limits are held exactly."""
     d = lab.drive(model, lab.load_profiles()[cycle], cycle, temperature_c, start_ah)
     s = d.simulation
     discharging = s.current_a < 0
-    assert s.voltage_v[discharging].min() >= lab.CUTOFF_V - 1e-9
-    assert s.voltage_v.max() <= 4.2 + 1e-9
+    assert s.voltage_v[discharging].min() >= lab.CUTOFF_V
+    assert s.voltage_v.max() <= 4.2
+    if cycle == "US06" and temperature_c == 0.0:
+        assert round(float(lab.CUTOFF_V - s.voltage_v.min()) * 1e3, 1) == 0.8
 
 
 def test_energy_and_charge_add_up(model: CellModel) -> None:
@@ -82,13 +112,12 @@ def test_voltage_floor_cuts_the_power_instead_of_stopping() -> None:
             constant_table(40.0, dict(TRUE, r0_ohm=0.3), ocv),
         )
     )
-    demand = np.full(50, -12.0)  # beyond what 4 V and 0.3 ohm can give above 3.5 V
-    stopped = simulate_power(model, demand, 1.0, 25.0, min_voltage_v=3.5)
-    held = simulate_power(model, demand, 1.0, 25.0, min_voltage_v=3.5, voltage_floor=True)
+    demand = np.full(50, -12.0)  # beyond what 4.2 V and 0.3 ohm can give above 3.5 V
+    floor = Limits(min_voltage_v=3.5, voltage_floor=True)
+    stopped = simulate_power(model, demand, 1.0, 25.0, limits=Limits(min_voltage_v=3.5))
+    held = simulate_power(model, demand, 1.0, 25.0, limits=floor)
     assert len(stopped.time_s) == 0
     assert len(held.time_s) == 50
     assert held.voltage_v == pytest.approx(np.full(50, 3.5), abs=1e-9)
-    empty = simulate_power(
-        model, demand, 1.0, 25.0, initial_charge_ah=2.0, min_voltage_v=3.5, voltage_floor=True
-    )
+    empty = simulate_power(model, demand, 1.0, 25.0, initial_charge_ah=2.0, limits=floor)
     assert len(empty.time_s) == 0  # at 2 Ah the open-circuit voltage is 3.4 V: nothing to give

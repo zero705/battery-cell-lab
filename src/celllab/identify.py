@@ -1,7 +1,7 @@
 """Identifying the circuit parameters from the HPPC test.
 
-At every state of charge the HPPC test gives four discharge pulses (for example 1, 2, 4 and 6C
-for 10 s), each followed by 40 s of rest and a charge pulse, then a 10-minute rest; then a step
+At every state of charge the HPPC test gives four pulse pairs, each a 10 s discharge pulse (for
+example 1, 2, 4 and 6C), 40 s of rest, a 10 s charge pulse and a 10-minute rest; then a step
 discharge at 0.3C to the next state of charge and an hour of rest. One window of the fit runs
 from the end of one hour-long rest to the end of the next, so it holds all eight pulses, the
 step and the relaxation after it (see windows() for the ends of the test).
@@ -16,13 +16,14 @@ keeps the two RC pairs on separate time scales.
 The window starts from rest (the RC voltages are zero). The open-circuit voltage along it is the
 curve of ocv.py plus a straight-line correction in the charge removed, fitted with the
 resistances: without it, an error in the slope of the curve within the window (largest near
-empty, where the curve is steep) is taken up by the slow RC pair, which then acts as a large
-capacitor. The correction only serves the fit; the model uses the curve of ocv.py.
+empty, where the curve is steep) is taken up by the slow RC pair, whose resistance and time
+constant then grow well beyond the cell's (a slope error of 0.1 V/Ah triples both in
+tests/test_identify.py). The correction only serves the fit; the model uses the curve of ocv.py.
 
 A time constant can only be identified from a relaxation at least as long as itself. A level
 whose tau2 exceeds the longest rest in its window is marked unidentifiable, and the model does
 not use it (model_file.py). This drops the lowest state of charge at 10, 25 and 40 degC, where
-the window ends with a 10-minute rest and the fit puts tau2 at 630-930 s.
+the window ends with a 10-minute rest and the fit puts tau2 at 634 to 934 s.
 """
 
 from __future__ import annotations
@@ -46,8 +47,8 @@ RECHARGE_S = 600.0  # a charge longer than this is the recharge that ends the te
 STEP_S = 60.0  # a discharge longer than this is a step to the next state of charge, not a pulse
 PULSE_A = 0.3
 CUTOFF_V = 2.8  # the lowest voltage the tests of the dataset discharge the cell to
-# i0 of the model without the charge-transfer term: at 18 A, the largest current in the data,
-# eta = (2RT/F) asinh(18 / 2e9) is below 1e-9 V.
+# i0 of the model without the charge-transfer term: at 20 A, more than any current in the data
+# (18.1 A), and 50 degC, eta = (2RT/F) asinh(20 / 2e9) is below 1e-9 V.
 NO_CHARGE_TRANSFER_A = 1e9
 
 
@@ -121,13 +122,19 @@ def _design(dt: Array, current: Array, tau1: float, tau2: float) -> Array:
 
 
 def fit_window(
-    window: Measurement, ocv: OcvCurve, charge_offset_ah: float, charge_transfer: bool = True
+    window: Measurement,
+    ocv: OcvCurve,
+    charge_offset_ah: float,
+    charge_transfer: bool = True,
+    slope_correction: bool = True,
 ) -> LevelFit:
     """Fit the parameters to one window of the HPPC test.
 
     With charge_transfer=False the Butler-Volmer term is left out (a plain two-RC circuit, the
     usual textbook model); i0 is then reported as NO_CHARGE_TRANSFER_A, a current so large that
-    the term contributes nothing.
+    the term contributes nothing. slope_correction=False leaves out the straight-line
+    correction of the open-circuit voltage, as the first version of the model did
+    (tools/compare_variants.py).
     """
     q = charge_offset_ah + window.charge_removed_ah
     target = window.voltage_v - ocv(q)
@@ -138,6 +145,7 @@ def fit_window(
     # The slope correction enters as two non-negative columns of opposite sign, so that it may
     # take either sign while the resistances stay non-negative.
     dq = (q - q[0])[:, None]
+    correction = np.hstack((dq, -dq)) if slope_correction else np.zeros((len(q), 0))
 
     def solve(log_theta: Array) -> tuple[Array, Array]:
         tau1, tau2 = np.exp(log_theta[:2])
@@ -145,7 +153,7 @@ def fit_window(
         if charge_transfer:
             i0 = np.full_like(current, np.exp(log_theta[2]))
             rhs = target - charge_transfer_v(current, temperature, i0)
-        design = np.hstack((_design(dt, current, tau1, tau2), dq, -dq))
+        design = np.hstack((_design(dt, current, tau1, tau2), correction))
         coefficients, _ = nnls(design, rhs)
         return coefficients[:3], design @ coefficients - rhs
 
@@ -185,11 +193,15 @@ def fit_window(
 
 
 def fit_temperature(
-    hppc: Measurement, ocv: OcvCurve, points: list[RestPoint], charge_transfer: bool = True
+    hppc: Measurement,
+    ocv: OcvCurve,
+    points: list[RestPoint],
+    charge_transfer: bool = True,
+    slope_correction: bool = True,
 ) -> list[LevelFit]:
     """Fit every state of charge of one HPPC test."""
     q = hppc.charge_removed_ah
     return [
-        fit_window(hppc.window(a, b), ocv, float(q[a]), charge_transfer)
+        fit_window(hppc.window(a, b), ocv, float(q[a]), charge_transfer, slope_correction)
         for a, b in windows(hppc, points)
     ]

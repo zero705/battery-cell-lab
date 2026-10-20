@@ -29,10 +29,22 @@ def read(path: Path = MODEL_FILE) -> dict[str, Any]:
 
 def load_model(variant: Variant = "charge_transfer", path: Path = MODEL_FILE) -> CellModel:
     """The cell model of one variant, from data/model.json, from its identifiable levels."""
-    data = read(path)
+    return from_data(read(path), variant)
+
+
+def from_data(
+    data: dict[str, Any], variant: Variant = "charge_transfer", identifiable_only: bool = True
+) -> CellModel:
+    """The cell model of one variant from the content of a model file. identifiable_only=False
+    also uses the levels the identifiability rule leaves out, as the first version of the
+    model did (tools/compare_variants.py)."""
     tables = []
     for entry in data["temperatures"]:
-        levels = [lv for lv in entry["variants"][variant]["levels"] if lv["identifiable"]]
+        levels = [
+            lv
+            for lv in entry["variants"][variant]["levels"]
+            if lv["identifiable"] or not identifiable_only
+        ]
         tables.append(
             TemperatureTable(
                 ambient_c=float(entry["ambient_c"]),

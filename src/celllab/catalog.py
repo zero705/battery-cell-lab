@@ -26,9 +26,13 @@ _KIND = re.compile(r" \d+_(HPPC|C20DisCh|UDDS|HWFET|LA92|US06|Mixed\d)_")
 # Tests that are in the dataset but cannot be used, found by tools/audit_dataset.py.
 EXCLUDED = {
     ("25degC", "HWFET"): "no current flows: the file is 10 minutes of rest",
-    ("10degC", "LA92"): "time goes backwards in four places and three rows are missing",
+    ("10degC", "LA92"): "time goes backwards in four places and three rows hold no values",
+    ("n10degC", "Mixed4"): (
+        "nothing is logged for 416 s from 387 s into the test, while the cycle runs: the charge "
+        "moved then is unknown"
+    ),
     **{
-        ("40degC", f"Mixed{n}"): "run at about 23 degC, not 40 degC, and stopped after 0.19 Ah"
+        ("40degC", f"Mixed{n}"): "run at 23 to 24 degC, not 40 degC, and stopped after 0.19 Ah"
         for n in range(4, 9)
     },
 }

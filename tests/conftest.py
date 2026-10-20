@@ -17,6 +17,17 @@ from celllab.model_file import MODEL_FILE, load_model
 from celllab.ocv import OcvCurve
 
 RAW_DATA = MODEL_FILE.parent / "raw"
+# The dataset's technical report: the 10 s discharge resistance at 50 % state of charge, mOhm.
+# tests/test_raw_data.py reads the same from the raw pulses; tests/test_docs.py checks that the
+# documents quote these figures.
+REPORT_RESISTANCE_MOHM = {
+    "n20degC": 179.3,
+    "n10degC": 89.8,
+    "0degC": 53.0,
+    "10degC": 36.7,
+    "25degC": 27.2,
+    "40degC": 23.6,
+}
 TRUE = {
     "r0_ohm": 0.02,
     "r1_ohm": 0.006,

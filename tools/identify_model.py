@@ -14,6 +14,7 @@ import json
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -23,7 +24,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from celllab import catalog, identify, ocv  # noqa: E402
 from celllab.ecm import PARAMETERS  # noqa: E402
 from celllab.measurements import read_mat  # noqa: E402
-from celllab.model_file import MODEL_FILE, VARIANTS  # noqa: E402
+from celllab.model_file import MODEL_FILE, VARIANTS, Variant  # noqa: E402
 
 DIGITS = 6  # significant digits kept in the file
 
@@ -32,7 +33,11 @@ def sig(value: float) -> float:
     return float(f"{value:.{DIGITS}g}")
 
 
-def main() -> None:
+def build(
+    variants: tuple[Variant, ...] = VARIANTS, slope_correction: bool = True
+) -> dict[str, Any]:
+    """What data/model.json holds; tools/compare_variants.py also builds it without the slope
+    correction of the fit."""
     manifest = json.loads(catalog.MANIFEST.read_text(encoding="utf-8"))
     temperatures = []
     loo: list[float] = []
@@ -42,12 +47,16 @@ def main() -> None:
         c20 = read_mat(catalog.find(folder, "C20DisCh").path)
         curve, points = ocv.build(hppc, c20)
         loo += ocv.leave_one_out(hppc, c20).tolist()
-        variants = {}
-        for variant in VARIANTS:
+        fitted = {}
+        for variant in variants:
             fits = identify.fit_temperature(
-                hppc, curve, points, charge_transfer=variant == "charge_transfer"
+                hppc,
+                curve,
+                points,
+                charge_transfer=variant == "charge_transfer",
+                slope_correction=slope_correction,
             )
-            variants[variant] = {
+            fitted[variant] = {
                 "levels": [
                     {
                         "charge_ah": sig(f.charge_ah),
@@ -62,7 +71,7 @@ def main() -> None:
                     for f in fits
                 ]
             }
-        level_temps = [lv["temperature_c"] for lv in variants["charge_transfer"]["levels"]]
+        level_temps = [lv["temperature_c"] for lv in fitted[variants[0]]["levels"]]
         temperatures.append(
             {
                 "folder": folder,
@@ -82,15 +91,15 @@ def main() -> None:
                     }
                     for p in points
                 ],
-                "variants": variants,
+                "variants": fitted,
             }
         )
         print(
-            f"{folder}: {len(points)} rest points, {len(variants['linear']['levels'])} "
+            f"{folder}: {len(points)} rest points, {len(fitted[variants[0]]['levels'])} "
             f"states of charge, {time.time() - start:.0f} s"
         )
     loo_mv = np.array(loo) * 1e3
-    model = {
+    return {
         "dataset": {k: manifest[k] for k in ("dataset", "doi", "authors", "licence")},
         "ocv_leave_one_out": {
             "points": len(loo),
@@ -99,6 +108,10 @@ def main() -> None:
         },
         "temperatures": temperatures,
     }
+
+
+def main() -> None:
+    model = build()
     MODEL_FILE.write_text(json.dumps(model, indent=1) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {MODEL_FILE.relative_to(ROOT)}")
 

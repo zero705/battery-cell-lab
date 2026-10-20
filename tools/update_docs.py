@@ -45,8 +45,8 @@ def results() -> str:
     data = _validation()
     lines = [
         "| Chamber temperature | Tests | Median error, development set | Median error, test set "
-        "| Worst test | Median error, two RC pairs only |",
-        "|---|---|---|---|---|---|",
+        "| Median error, all tests | Worst test | Median error, two RC pairs only |",
+        "|---|---|---|---|---|---|---|",
     ]
     ct, lin = data["charge_transfer"], data["linear"]
     for t_c in TEMPERATURES:
@@ -55,14 +55,14 @@ def results() -> str:
         both = dev + test
         lines.append(
             f"| {t_c:g} °C | {len(both)} | {statistics.median(dev):.1f} mV "
-            f"| {statistics.median(test):.1f} mV | {max(both):.1f} mV "
-            f"| {statistics.median(_rms(lin, ambient_c=t_c)):.1f} mV |"
+            f"| {statistics.median(test):.1f} mV | {statistics.median(both):.1f} mV "
+            f"| {max(both):.1f} mV | {statistics.median(_rms(lin, ambient_c=t_c)):.1f} mV |"
         )
     dev, test = _rms(ct, split="development"), _rms(ct, split="test")
     lines.append(
         f"| **All** | **{len(dev) + len(test)}** | **{statistics.median(dev):.1f} mV** "
-        f"| **{statistics.median(test):.1f} mV** | **{max(dev + test):.1f} mV** "
-        f"| **{statistics.median(_rms(lin)):.1f} mV** |"
+        f"| **{statistics.median(test):.1f} mV** | **{statistics.median(dev + test):.1f} mV** "
+        f"| **{max(dev + test):.1f} mV** | **{statistics.median(_rms(lin)):.1f} mV** |"
     )
     return "\n".join(lines)
 
@@ -105,10 +105,35 @@ def parameters() -> str:
     return "\n".join(lines)
 
 
+DEVELOPMENT_ROWS = {
+    "first": "First: no slope correction, every level",
+    "slope_correction": "Slope correction only",
+    "identifiability_rule": "Identifiability rule only",
+    "both": "Both (the model)",
+}
+
+
+def development() -> str:
+    """The comparisons on the development set, from tools/compare_variants.py."""
+    data = json.loads((DATA / "development.json").read_text(encoding="utf-8"))
+    lines = [
+        "| Model | Levels used | Median error | RMS of the per-test errors |",
+        "|---|---|---|---|",
+    ]
+    for name, label in DEVELOPMENT_ROWS.items():
+        variant = data["variants"][name]
+        lines.append(
+            f"| {label} | {variant['levels']} | {variant['development']['median_mv']:.1f} mV "
+            f"| {variant['development']['rms_of_rms_mv']:.1f} mV |"
+        )
+    return "\n".join(lines)
+
+
 BLOCKS: dict[str, Callable[[], str]] = {
     "results": results,
     "every_test": every_test,
     "parameters": parameters,
+    "development": development,
 }
 
 

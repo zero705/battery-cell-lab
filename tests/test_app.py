@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Iterable
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 import pytest
@@ -13,7 +15,8 @@ from streamlit.testing.v1 import AppTest
 
 import streamlit_app
 
-APP = str(Path(__file__).resolve().parent.parent / "streamlit_app.py")
+ROOT = Path(__file__).resolve().parent.parent
+APP = str(ROOT / "streamlit_app.py")
 
 
 @pytest.fixture(scope="module")
@@ -135,3 +138,34 @@ def test_https_link_refuses_anything_but_plain_https() -> None:
 def test_temperature_label() -> None:
     assert streamlit_app.temperature_label(-20.0) == "-20 °C"
     assert streamlit_app.temperature_label(25.0) == "25 °C"
+
+
+def test_current_limits_in_words() -> None:
+    assert streamlit_app.current_limits(-20.0) == (
+        "the discharge current is limited to 6 A and the charging current of regenerative "
+        "braking to 1.5 A"
+    )
+    assert streamlit_app.current_limits(25.0) == (
+        "the charging current of regenerative braking is limited to 6 A; the discharge current "
+        "is not limited"
+    )
+
+
+def _text(elements: Iterable[Any]) -> str:
+    """The markdown of a list of elements, with its line breaks as spaces."""
+    return " ".join(" ".join(m.value for m in elements).split())
+
+
+def test_the_counts_shown_are_those_of_the_data(app: AppTest) -> None:
+    data = json.loads((ROOT / "data" / "validation.json").read_text(encoding="utf-8"))
+    tests, excluded = len(data["variants"]["charge_transfer"]), len(data["excluded"])
+    assert f"checked on {tests} drive-cycle tests" in _text(app.sidebar.markdown)
+    text = _text(app.markdown)
+    assert f"{tests} drive-cycle tests the identification never saw" in text
+    assert f"{excluded} tests of the dataset are unusable" in text
+
+
+def test_cold_weather_compares_the_cold_us06_test_with_the_lab(app: AppTest) -> None:
+    assert (
+        "delivered 82% of the discharge energy the first cycle asked for, and the model gives 79%"
+    ) in _text(app.markdown)

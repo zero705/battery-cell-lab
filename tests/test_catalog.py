@@ -35,14 +35,15 @@ def test_unknown_test_is_not_found() -> None:
 
 def test_drive_cycles_leave_out_the_excluded_tests() -> None:
     cycles = catalog.drive_cycles()
-    assert len(cycles) == 63
+    assert len(cycles) == 62
+    assert len(catalog.EXCLUDED) == 8
     assert not any((c.folder, c.kind) in catalog.EXCLUDED for c in cycles)
     counted = {folder: sum(c.folder == folder for c in cycles) for folder in catalog.AMBIENT_C}
     # 12 cycles per temperature, less the excluded ones and those the dataset does not have
     # (Mixed3 at 0 and 10 degC).
     assert counted == {
         "n20degC": 12,
-        "n10degC": 12,
+        "n10degC": 11,
         "0degC": 11,
         "10degC": 10,
         "25degC": 11,

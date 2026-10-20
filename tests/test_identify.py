@@ -36,6 +36,11 @@ def test_fit_is_not_misled_by_an_error_in_the_ocv_slope(true_values: dict[str, f
     fit = fit_window(data, given, charge_offset_ah=0.5)
     for name, expected in true_values.items():
         assert fit.values[name] == pytest.approx(expected, rel=0.02), name
+    # Without the correction the slow RC pair takes up the slope error: R2 and tau2 triple
+    # (docs/method.md, section 3).
+    plain = fit_window(data, given, charge_offset_ah=0.5, slope_correction=False)
+    for name in ("r2_ohm", "tau2_s"):
+        assert 2.9 < plain.values[name] / true_values[name] < 3.3, name
 
 
 def test_levels_record_their_longest_rest_and_identifiability(

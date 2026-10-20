@@ -31,8 +31,7 @@ TRACES = DATA / "traces"
 TRACE_STEP_S = 2.0
 # One period of each standard cycle, in seconds: the lag of the highest peak of the power
 # trace's autocorrelation between 300 and 2500 s, in the 40 degC tests (the only temperature
-# with all four cycles usable and no limit on regenerative braking). tests/test_profiles.py
-# recomputes these from the raw data.
+# with all four cycles usable). tests/test_raw_data.py recomputes these from the raw data.
 PERIOD_S = {"UDDS": 1370, "HWFET": 766, "LA92": 1438, "US06": 601}
 PROFILE_FOLDER = "40degC"
 
@@ -89,7 +88,12 @@ def main() -> None:
     models = {variant: load_model(variant) for variant in VARIANTS}
     results: dict[str, list[dict[str, object]]] = {v: [] for v in VARIANTS}
     start = time.time()
-    for test in catalog.drive_cycles():
+    tests = catalog.drive_cycles()
+    names = {f"{test.folder}_{test.kind}" for test in tests}
+    for stale in TRACES.glob("*.csv.gz"):  # the trace of a test no longer used
+        if stale.name.removesuffix(".csv.gz") not in names:
+            stale.unlink()
+    for test in tests:
         simulations = {}
         for variant, model in models.items():
             result, measured, simulated = validation.run(model, test)

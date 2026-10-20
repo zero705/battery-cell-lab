@@ -2,8 +2,9 @@
 
 Two tests of the dataset measure it, and neither alone is enough:
 
-- the HPPC test rests the cell for an hour at every state of charge. The voltage at the end of
-  each rest is the open-circuit voltage after discharge, but only at 11 or 12 points;
+- the HPPC test rests the cell for an hour after each of its 9 to 11 steps down in state of
+  charge. The voltage at the end of each rest, and at the start of the test, is the
+  open-circuit voltage after discharge, but only at those 10 to 12 points;
 - the C/20 test discharges the cell at 0.15 A, which traces the whole curve, but under current:
   the voltage lies below the open-circuit voltage by the cell's polarisation at 0.15 A.
 
@@ -15,8 +16,9 @@ six temperatures, against 17.8 mV for a curve through the rest points alone
 (tests/test_raw_data.py checks both figures).
 
 The charge removed is counted from the full cell. The C/20 charge half is not used: at 0.15 A
-the cycler's current accuracy (0.1 % of its 75 A range, 75 mA) makes its charge count disagree
-with the discharge by up to 0.19 Ah, while HPPC steps at 0.9 A and more are counted consistently.
+the cycler's current accuracy (0.1 % of its 75 A range, ±75 mA) is half the current, and its
+charge count disagrees with the discharge by up to 0.19 Ah, while the HPPC steps, at 0.87 to
+0.9 A, count consistently with the discharge (at 25 degC both remove 2.78 Ah to 2.8 V).
 """
 
 from __future__ import annotations

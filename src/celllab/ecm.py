@@ -20,11 +20,13 @@ temperature. Outside the tested range, values are held at the nearest end.
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
 import numpy.typing as npt
+from scipy.optimize import brentq
 
 from celllab.measurements import Array
 from celllab.ocv import OcvCurve
@@ -161,8 +163,10 @@ class Simulation:
 
     @property
     def voltage_v(self) -> Array:
+        # Summed in the order step_current sums them, (OCV + u1 + u2) + R0 i + eta, so that a
+        # voltage it holds at a limit is the voltage recorded, to the last bit.
         return np.asarray(
-            self.ocv_v + self.ohmic_v + self.charge_transfer_v + self.rc1_v + self.rc2_v
+            self.ocv_v + self.rc1_v + self.rc2_v + self.ohmic_v + self.charge_transfer_v
         )
 
     @property
@@ -202,35 +206,118 @@ def simulate_current(
     )
 
 
-def _current_for_power(
-    power_w: float, emf_v: float, r0: float, thermal_v: float, i0: float
+def _root(f: Callable[[float], float], low: float, high: float) -> float:
+    """The root of f in [low, high], where f changes sign (Brent's method, which falls back
+    on bisection and so always converges)."""
+    return float(brentq(f, low, high, xtol=1e-12))
+
+
+def _bisect(f: Callable[[float], float], low: float, high: float) -> tuple[float, float]:
+    """Narrow [low, high], over which f rises through 0, by 60 halvings (to the precision of a
+    float), keeping f(low) <= 0 < f(high): each end stays on its own side of the root."""
+    for _ in range(60):
+        mid = (low + high) / 2
+        low, high = (mid, high) if f(mid) <= 0 else (low, mid)
+    return low, high
+
+
+@dataclass(frozen=True)
+class Limits:
+    """What the cycler allows: the voltage range and the current either way."""
+
+    min_voltage_v: float = 2.8
+    max_voltage_v: float = 4.2
+    max_charge_a: float = math.inf
+    max_discharge_a: float = math.inf
+    voltage_floor: bool = False
+
+    def __post_init__(self) -> None:
+        if not 0 < self.min_voltage_v < self.max_voltage_v:
+            raise ValueError("the voltage range must be positive and not empty")
+        if self.max_charge_a <= 0 or self.max_discharge_a <= 0:
+            raise ValueError("the current limits must be positive")
+
+
+DEFAULT_LIMITS = Limits()  # the cell's voltage range, 2.8 to 4.2 V, and no current limit
+
+
+@dataclass(frozen=True)
+class _Terminal:
+    """The terminal voltage over one step: v(i) = emf + r0 i + thermal asinh(i / (2 i0))."""
+
+    emf_v: float
+    r0: float
+    thermal_v: float
+    i0: float
+
+    def voltage(self, i: float) -> float:
+        return self.emf_v + self.r0 * i + self.thermal_v * math.asinh(i / (2 * self.i0))
+
+    def power(self, i: float) -> float:
+        return self.voltage(i) * i
+
+    def slope(self, i: float) -> float:
+        """d(power)/di."""
+        conductance = self.r0 + self.thermal_v / math.sqrt((2 * self.i0) ** 2 + i * i)
+        return self.voltage(i) + i * conductance
+
+
+def step_current(
+    power_w: float, emf_v: float, r0: float, thermal_v: float, i0: float, *, limits: Limits
 ) -> float | None:
-    """Current (charge positive) at which v(i) i = power, v(i) = emf + r0 i + eta(i).
+    """The current (charge positive) that gives power_w at the terminals, within the limits;
+    None if the run must end.
 
-    On discharge (power < 0) the delivered power |v i| rises with |i| up to a maximum and then
-    falls; the smaller-current root is the physical one. Returns None if the cell cannot
-    deliver the power.
+    The terminal voltage v(i) = emf + r0 i + thermal asinh(i / (2 i0)) rises with i, and the
+    power p(i) = v(i) i is convex in i. On charge, p rises from 0 without bound and exceeds
+    power_w at i = power_w / emf, where v > emf: one root lies in between. On discharge, p
+    falls from 0 to its minimum, the most power the cell can give, where dp/di = 0, and rises
+    beyond it; the physical current is the root on the near side of that point. A root with
+    v >= min_voltage_v has |i| = |power_w| / v <= |power_w| / min_voltage_v, so it is looked
+    for only that far, and no further than max_discharge_a.
+
+    A charge is capped at max_charge_a and at the current that holds max_voltage_v (no current
+    if the cell is already above it). If a discharge cannot be given within the limits, the
+    cycler holds the current limit, max_discharge_a, or the voltage limit, min_voltage_v,
+    whichever it reaches first; at the voltage limit it does so only with voltage_floor=True,
+    and otherwise the run ends. It also ends when the cell is at or below min_voltage_v without
+    current.
     """
-    if power_w == 0:
+    cell = _Terminal(emf_v, r0, thermal_v, i0)
+    if power_w > 0:
+        return _charge(cell, power_w, limits)
+    if power_w < 0:
+        return _discharge(cell, power_w, limits)
+    return 0.0
+
+
+def _charge(cell: _Terminal, power_w: float, limits: Limits) -> float:
+    i = min(
+        _root(lambda c: cell.power(c) - power_w, 0.0, power_w / cell.emf_v), limits.max_charge_a
+    )
+    if cell.voltage(i) <= limits.max_voltage_v:
+        return i
+    if cell.emf_v >= limits.max_voltage_v:
         return 0.0
+    # The current that holds max_voltage_v, from below: the voltage never exceeds it.
+    return _bisect(lambda c: cell.voltage(c) - limits.max_voltage_v, 0.0, i)[0]
 
-    def g(i: float) -> float:
-        return (emf_v + r0 * i + thermal_v * math.asinh(i / (2 * i0))) * i - power_w
 
-    def dg(i: float) -> float:
-        slope = r0 + thermal_v / math.sqrt((2 * i0) ** 2 + i * i)
-        return emf_v + r0 * i + thermal_v * math.asinh(i / (2 * i0)) + i * slope
-
-    i = power_w / emf_v
-    for _ in range(50):
-        step = g(i) / dg(i)
-        i_next = i - step
-        if power_w < 0 and dg(i_next) <= 0:  # past the maximum-power point: no solution
-            return None
-        if abs(step) < 1e-9:
-            return i_next
-        i = i_next
-    return None  # pragma: no cover - on this monotone branch Newton converges in a few steps
+def _discharge(cell: _Terminal, power_w: float, limits: Limits) -> float | None:
+    if cell.emf_v <= limits.min_voltage_v:
+        return None
+    reach = max(power_w / limits.min_voltage_v, -limits.max_discharge_a)
+    # The physical root lies between 0 and the maximum-power point, if that comes first.
+    near = reach if cell.slope(reach) >= 0 else _root(cell.slope, reach, 0.0)
+    if cell.power(near) <= power_w:
+        return _root(lambda c: cell.power(c) - power_w, near, 0.0)
+    # The power is out of reach. The current that holds min_voltage_v lies between 0 and
+    # -emf / r0, where v < 0; it is taken from above, so the voltage never falls below it.
+    lowest = -cell.emf_v / cell.r0
+    floor = _bisect(lambda c: cell.voltage(c) - limits.min_voltage_v, lowest, 0.0)[1]
+    if -limits.max_discharge_a >= floor:
+        return -limits.max_discharge_a
+    return floor if limits.voltage_floor else None
 
 
 def simulate_power(
@@ -240,70 +327,53 @@ def simulate_power(
     temperature_c: float,
     *,
     initial_charge_ah: float = 0.0,
-    min_voltage_v: float = 2.8,
-    max_charge_a: float = math.inf,
-    max_voltage_v: float = 4.2,
-    voltage_floor: bool = False,
+    limits: Limits = DEFAULT_LIMITS,
 ) -> Simulation:
-    """Run a power demand (positive on charge) until the voltage would fall below
-    min_voltage_v, the cell cannot deliver the power, or the demand ends.
+    """Run a power demand (positive on charge) until the cell cannot meet it within the
+    limits (step_current), the charge removed reaches the end of the open-circuit voltage
+    curve, or the demand ends.
 
     The current of each step is the one that gives the demanded power at the terminals with
     the RC voltages of the start of the step; it is held over the step. This is how the tests
-    of the dataset drove the cell: with a power profile, not a current profile. Charging
-    (regenerative braking) is capped at max_charge_a, as the tests capped it in the cold, and
-    at the current that holds the cell at max_voltage_v, its charge voltage.
-
-    With voltage_floor=True a demand the cell cannot meet above min_voltage_v does not end the
-    run: the current is reduced to the value that holds the cell at min_voltage_v, as a cycler
-    does, and the run ends only when the cell cannot hold that voltage even without current.
+    of the dataset drove the cell: with a power profile, not a current profile, within limits
+    on the current either way and on the voltage.
     """
     power = np.asarray(power_w, dtype=float)
     limit = float(np.interp(temperature_c, model.temperatures_c, model.charge_limit_ah))
     # The temperature is constant, so the parameters depend on q alone: tabulate them once on a
-    # grid finer than the open-circuit voltage curve's own (5 mAh) and interpolate from it.
-    grid = np.linspace(0.0, limit, 2001)
-    table = model.parameters(grid, temperature_c)
-    ocv_table = model.ocv_v(grid, temperature_c)
+    # grid finer than the open-circuit voltage curve's own (5 mAh) and interpolate linearly
+    # from it, holding the values at its ends, as np.interp does.
+    points = 2001
+    grid = np.linspace(0.0, limit, points)
+    columns = model.parameters(grid, temperature_c)
+    table = np.column_stack(
+        [columns[name] for name in PARAMETERS] + [model.ocv_v(grid, temperature_c)]
+    ).tolist()
+    spacing = limit / (points - 1)
     q = initial_charge_ah
     u1 = u2 = 0.0
     thermal = 2 * GAS_CONSTANT * (temperature_c + KELVIN) / FARADAY
     rows: list[tuple[float, ...]] = []
     for k, demand in enumerate(power.tolist()):
-        p = {name: float(np.interp(q, grid, column)) for name, column in table.items()}
-        ocv = float(np.interp(q, grid, ocv_table))
-        emf = ocv + u1 + u2
-
-        def terminal(current: float, emf: float = emf, p: dict[str, float] = p) -> float:
-            return emf + p["r0_ohm"] * current + thermal * math.asinh(current / (2 * p["i0_a"]))
-
-        def current_at(voltage: float, low: float, high: float) -> float:
-            """The current in [low, high] at which the terminal voltage is `voltage`
-            (bisection; the voltage rises with the current)."""
-            for _ in range(60):
-                mid = (low + high) / 2
-                low, high = (mid, high) if terminal(mid) < voltage else (low, mid)
-            return (low + high) / 2
-
-        found = _current_for_power(demand, emf, p["r0_ohm"], thermal, p["i0_a"])
-        if found is None or (demand < 0 and terminal(found) < min_voltage_v):
-            if not voltage_floor or emf <= min_voltage_v:
-                break
-            i = current_at(min_voltage_v, -emf / p["r0_ohm"], 0.0)
-        else:
-            i = min(found, max_charge_a)
-        if i > 0 and terminal(i) > max_voltage_v:
-            # Charging would lift the cell above its charge voltage: hold it there.
-            i = current_at(max_voltage_v, 0.0, i)
-        eta = thermal * math.asinh(i / (2 * p["i0_a"]))
-        rows.append((k * dt_s, i, q, ocv, p["r0_ohm"] * i, eta, u1, u2))
+        x = min(max(q / spacing, 0.0), points - 1.0)
+        j = min(int(x), points - 2)
+        w = x - j
+        r0, r1, tau1, r2, tau2, i0, ocv = (
+            a + w * (b - a) for a, b in zip(table[j], table[j + 1], strict=True)
+        )
+        found = step_current(demand, ocv + u1 + u2, r0, thermal, i0, limits=limits)
+        if found is None:
+            break
+        i = found
+        eta = thermal * math.asinh(i / (2 * i0))
+        rows.append((k * dt_s, i, q, ocv, r0 * i, eta, u1, u2))
         q_next = q - i * dt_s / 3600
         if q_next > limit:
             break
-        a1 = math.exp(-dt_s / p["tau1_s"])
-        a2 = math.exp(-dt_s / p["tau2_s"])
-        u1 = a1 * u1 + p["r1_ohm"] * (1 - a1) * i
-        u2 = a2 * u2 + p["r2_ohm"] * (1 - a2) * i
+        a1 = math.exp(-dt_s / tau1)
+        a2 = math.exp(-dt_s / tau2)
+        u1 = a1 * u1 + r1 * (1 - a1) * i
+        u2 = a2 * u2 + r2 * (1 - a2) * i
         q = q_next
     data = np.array(rows, dtype=float).reshape(-1, 8)
     return Simulation(

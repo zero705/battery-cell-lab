@@ -3,8 +3,9 @@
     python tools/audit_dataset.py
 
 Reports the rows that repeat a time stamp, files where time goes backwards or values are
-missing, the Wh column, and a summary of every drive-cycle test (duration, charge, voltages,
-temperatures), from which the exclusions in celllab/catalog.py follow.
+missing, the Wh column, gaps in the logging of the drive cycles, and a summary of every
+drive-cycle test (duration, charge, voltages, temperatures), from which the exclusions in
+celllab/catalog.py follow.
 """
 
 from __future__ import annotations
@@ -19,7 +20,16 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from celllab import catalog  # noqa: E402
-from celllab.measurements import read_mat  # noqa: E402
+from celllab.measurements import Measurement, read_mat  # noqa: E402
+
+GAP_S = 30.0  # the drive cycles are logged every 0.1 s; at rest the cycler logs more slowly
+
+
+def logging_gaps(m: Measurement) -> list[int]:
+    """Where a test logs nothing for more than GAP_S while the current flows."""
+    flowing = (np.abs(m.current_a[:-1]) > 0.05) | (np.abs(m.current_a[1:]) > 0.05)
+    gaps: list[int] = np.flatnonzero((np.diff(m.time_s) > GAP_S) & flowing).tolist()
+    return gaps
 
 
 def main() -> None:
@@ -72,6 +82,11 @@ def main() -> None:
             f"{m.voltage_v[0]:.3f} -> {m.voltage_v[-1]:.3f} V "
             f"{m.temperature_c[0]:6.1f} .. {m.temperature_c.max():6.1f} degC  {note}"
         )
+        for g in logging_gaps(m):
+            print(
+                f"      nothing logged for {m.time_s[g + 1] - m.time_s[g]:.0f} s from "
+                f"{m.time_s[g]:.0f} s, current {m.current_a[g]:.2f} -> {m.current_a[g + 1]:.2f} A"
+            )
 
 
 if __name__ == "__main__":

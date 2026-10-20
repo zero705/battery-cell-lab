@@ -8,7 +8,7 @@
 
 An equivalent circuit model of a lithium-ion cell, the **LG 18650HG2** (3 Ah, NMC / graphite +
 SiO), identified from McMaster University's laboratory tests of a new cell and checked against
-**63 drive-cycle tests from -20 to 40 °C** that the identification never saw. Given a current
+**62 drive-cycle tests from -20 to 40 °C** that the identification never saw. Given a current
 and a temperature, it predicts the terminal voltage, how much charge is left and how much heat
 the cell gives off; given a car's power demand, it tells how much energy the cell delivers
 before it can no longer keep up. A Streamlit app shows it all, from a single current pulse to a
@@ -22,48 +22,54 @@ two tests the model was not fitted to. Drawn by `tools/make_figures.py`.*
 ## Results
 
 The model predicts the voltage of the drive-cycle tests to a median of **29 mV RMS**, under 1 %
-of the cell voltage. The tests were split before the modelling choices were compared: choices were
-compared on the Mixed1-4 cycles (development set) only, and the other 42 tests (test set) were run
-once, with the final model.
+of the cell's nominal 3.6 V. The tests were split before the modelling choices were compared:
+choices were compared on the Mixed1-4 cycles (development set) only, and the other 42 tests (test
+set) were run once, with the final model.
 
 <!-- generated: results -->
-| Chamber temperature | Tests | Median error, development set | Median error, test set | Worst test | Median error, two RC pairs only |
-|---|---|---|---|---|---|
-| -20 °C | 12 | 63.6 mV | 60.0 mV | 87.2 mV | 69.7 mV |
-| -10 °C | 12 | 49.0 mV | 42.8 mV | 74.6 mV | 47.1 mV |
-| 0 °C | 11 | 26.6 mV | 26.1 mV | 50.7 mV | 25.5 mV |
-| 10 °C | 10 | 29.3 mV | 23.8 mV | 51.9 mV | 26.1 mV |
-| 25 °C | 11 | 27.9 mV | 20.7 mV | 55.8 mV | 26.9 mV |
-| 40 °C | 7 | 18.0 mV | 15.4 mV | 31.1 mV | 16.6 mV |
-| **All** | **63** | **30.3 mV** | **28.6 mV** | **87.2 mV** | **29.3 mV** |
+| Chamber temperature | Tests | Median error, development set | Median error, test set | Median error, all tests | Worst test | Median error, two RC pairs only |
+|---|---|---|---|---|---|---|
+| -20 °C | 12 | 63.6 mV | 60.0 mV | 60.7 mV | 87.2 mV | 69.7 mV |
+| -10 °C | 11 | 45.6 mV | 42.8 mV | 43.6 mV | 74.6 mV | 46.4 mV |
+| 0 °C | 11 | 26.6 mV | 26.1 mV | 26.6 mV | 50.7 mV | 25.5 mV |
+| 10 °C | 10 | 29.3 mV | 23.8 mV | 26.2 mV | 51.9 mV | 26.1 mV |
+| 25 °C | 11 | 27.9 mV | 20.7 mV | 27.0 mV | 55.8 mV | 26.9 mV |
+| 40 °C | 7 | 18.0 mV | 15.4 mV | 16.7 mV | 31.1 mV | 16.6 mV |
+| **All** | **62** | **29.8 mV** | **28.6 mV** | **29.0 mV** | **87.2 mV** | **29.3 mV** |
 <!-- end generated -->
 
-Each error is the RMS over a whole test, from full to the end of the test and the rest after it,
-sampled every 0.1 s. The last column is the textbook circuit without the charge-transfer term:
-the term changes little from 0 °C up, and in the cold it lowers the median and cuts the worst
-test at -20 °C from 135 to 87 mV. [Every test](docs/method.md#6-every-test) is listed in the
-method.
+Each error is the RMS over every sample of a whole test, logged every 0.1 s, from full to the
+end of the test and the rest after it. The last column is the textbook circuit without the
+charge-transfer term: from 0 °C up the term changes the median by at most 1.1 mV, and in the
+cold it lowers it (at -20 °C from 69.7 to 60.7 mV) and cuts the worst test at -20 °C from 135
+to 87 mV. [Every test](docs/method.md#6-every-test) is listed in the method.
 
 ![RMS error of every drive-cycle test by temperature, with and without the charge-transfer term.](docs/images/error_by_temperature.png)
 
-**Where the error comes from.** From 0 to 40 °C the largest errors sit at the end of discharge,
-where the voltage falls steeply. In the cold, most of the error comes from regenerative braking:
-in each of the twelve -20 °C tests the model's voltage runs 82 to 104 mV high on average while
-the cell charges, while during discharge its mean error stays within 17 mV in eleven of them
-(US06: 58 mV low). The HPPC test charges the cold cell only with small pulses (0.3 to 1.5 A), and
-the model's charge-transfer term is symmetric, so charging in the cold is its weakest part.
+**Where the error comes from.** From 10 to 40 °C the error is largest at the end of discharge,
+where the voltage falls steeply: in 21 of the 28 tests the largest error lies in the last tenth
+of the charge removed. In the cold it is largest while the cell charges, during regenerative
+braking. In each of the twelve -20 °C tests the model's voltage runs 81 to 104 mV high on
+average while the cell charges; while it discharges, the mean error stays within 20 mV in eleven
+of them (US06: 54 mV low). Charging takes 15 % of the time at -20 °C but carries 34 % of the
+squared error (medians over the tests). The identification sees the cold cell charged only in
+the 10 s pulses of the HPPC test, at most 1.5 A, and the charge-transfer term is symmetric, the
+same for charge and discharge: charging in the cold is the model's weakest part. At every
+temperature the hardest cycle, US06, has the largest error; during its hard accelerations the
+model's voltage runs low, by 18 to 55 mV on average while the cell discharges.
 
-### Checks that do not depend on the model
+### Cross-checks
 
 - **The pulse resistances match the dataset authors' own figures.** Their report gives the
-  10-second discharge resistance at half charge; read from the same raw pulses here it is
-  179.3 / 89.8 / 53.0 / 27.2 / 23.6 mΩ at -20 / -10 / 0 / 25 / 40 °C in the report, and within
-  0.5 mΩ of each here (`tests/test_raw_data.py`).
-- **The cold limits the power, in the data and in the model.** In the -20 °C US06 test the cell
-  delivered 82 % of the discharge power of the first cycle; the model, driven by the same power
-  demand at -20 °C, delivers 87 %.
+  10-second discharge resistance at half charge as 179.3, 89.8, 53.0, 36.7, 27.2 and 23.6 mΩ
+  from -20 to 40 °C. Read from the same raw pulses here, five of them agree within 0.5 mΩ; at
+  10 °C the pulse reads 38.0 mΩ, 1.3 mΩ above (`tests/test_raw_data.py`).
+- **The tests' current limits, in the data and in the virtual lab.** In the cold the tests
+  limited the current, to 6 A of discharge at -20 °C. In the -20 °C US06 test this held the cell
+  to 82 % of the discharge energy the first cycle demands; the virtual lab, with the same demand
+  and limits, gives 79 %.
 - **Every file is the published one.** All 206 test files are checked against the SHA-256 that
-  Mendeley Data publishes, and the five unusable tests are left out for a stated reason
+  Mendeley Data publishes, and the eight unusable tests are left out for a stated reason
   (`celllab/catalog.py`).
 
 ## The app
@@ -83,6 +89,10 @@ Six tabs: **How a cell responds** (a real pulse and what each part of the circui
 temperatures), **Validation** (every test, measured against modelled) and **Method**.
 
 ![Energy one full cell delivers on each drive cycle at six temperatures, from the model.](docs/images/cold_weather.png)
+
+At 40 °C the cell delivers a little less than at 25 °C on three of the four cycles: in this
+dataset it gave less charge at 40 °C (its C/20 discharge to 2.8 V removed 2.687 Ah, against
+2.779 Ah at 25 °C), and the model follows the data.
 
 ## How it works
 
@@ -121,10 +131,11 @@ validation: [docs/method.md](docs/method.md). The dataset and its audit:
 
 ```bash
 pip install -e ".[dev]"
-python tools/fetch_dataset.py      # 206 files, 112 MB, each checked against its SHA-256
+python tools/fetch_dataset.py      # 206 files, 117 MB, each checked against its SHA-256
 python tools/audit_dataset.py      # the data problems listed in docs/data.md
 python tools/identify_model.py     # data/model.json, a few minutes
 python tools/validate_model.py     # data/validation.json, traces and power profiles
+python tools/compare_variants.py   # data/development.json, the comparisons that chose the model
 python tools/extract_examples.py   # data/pulses.csv for the app
 python tools/make_figures.py       # docs/images
 python tools/update_docs.py        # the generated tables of README.md and docs/method.md
@@ -142,9 +153,9 @@ How the app and the tools are protected, and how to report a security problem:
 src/celllab/        the model: reading the data, open-circuit voltage, circuit, identification,
                     validation, virtual lab
 streamlit_app.py    the app
-data/               the dataset manifest, the identified model, the validation results and the
-                    traces the app plots
-tools/              scripts that download, audit, identify, validate and draw
+data/               the dataset manifest, the identified model, the comparisons that chose it,
+                    the validation results and the traces the app plots
+tools/              scripts that download, audit, identify, compare, validate and draw
 docs/               method, data and figures
 tests/              pytest suite, including the app and every stated number about the raw data
 ```
@@ -154,9 +165,10 @@ tests/              pytest suite, including the app and every stated number abou
 The test data: P. Kollmeyer, M. Naguib, M. Skells, *LG 18650HG2 Li-ion Battery Data*, McMaster
 University, Mendeley Data, V2, 2020, <https://doi.org/10.17632/b5mj79w5w9.2>, licensed
 [CC BY 4.0](http://creativecommons.org/licenses/by/4.0). The files in `data/traces/`,
-`data/profiles.csv` and `data/pulses.csv` are derived from it (resampled, cut, or compared with
-the model) under the same licence. The raw files are not in this repository;
-`tools/fetch_dataset.py` downloads them from Mendeley Data.
+`data/profiles.csv` and `data/pulses.csv`, and the open-circuit voltage curves in
+`data/model.json`, are derived from it (resampled, cut, fitted, or compared with the model) under
+the same licence. The raw files are not in this repository; `tools/fetch_dataset.py` downloads
+them from Mendeley Data.
 
 ## Author
 

@@ -26,8 +26,6 @@ from celllab import lab, load_model  # noqa: E402
 DATA = ROOT / "data"
 OUT = ROOT / "docs" / "images"
 TEMPERATURES = (-20.0, -10.0, 0.0, 10.0, 25.0, 40.0)
-FOLDERS = ("n20degC", "n10degC", "0degC", "10degC", "25degC", "40degC")
-COLOURS = ["#1f4e9c", "#3a7bd5", "#6ca8e8", "#e3a33b", "#d96a2b", "#a8321d"]
 INK, MUTED, GRID = "#1d232a", "#5b6570", "#e3e7eb"
 MEASURED, MODEL = "#1d232a", "#d96a2b"
 
@@ -103,7 +101,10 @@ def error_by_temperature() -> None:
     ax.set_ylabel("RMS error per test (mV)")
     ax.set_ylim(0, None)
     ax.legend(frameon=False, loc="upper right")
-    ax.set_title("Error on the 63 drive-cycle tests; bars mark the median", loc="left", color=INK)
+    tests = len(data["variants"]["charge_transfer"])
+    ax.set_title(
+        f"Error on the {tests} drive-cycle tests; bars mark the median", loc="left", color=INK
+    )
     fig.tight_layout()
     save(fig, "error_by_temperature.png")
 

@@ -14,11 +14,13 @@ from celllab.ecm import (
     KELVIN,
     PARAMETERS,
     CellModel,
+    Limits,
     TemperatureTable,
     charge_transfer_v,
     rc_response,
     simulate_current,
     simulate_power,
+    step_current,
 )
 
 
@@ -155,24 +157,98 @@ def test_power_mode_delivers_the_demanded_power() -> None:
 
 def test_power_mode_stops_at_the_cut_off_voltage() -> None:
     model = _model()
-    sim = simulate_power(model, np.full(20000, -10.0), 1.0, 25.0, min_voltage_v=3.5)
+    sim = simulate_power(model, np.full(20000, -10.0), 1.0, 25.0, limits=Limits(min_voltage_v=3.5))
     assert len(sim.time_s) < 20000
     assert sim.voltage_v.min() >= 3.5
 
 
 def test_power_mode_stops_when_the_power_is_out_of_reach() -> None:
     model = _model(r0_cold=0.5, r0_warm=0.5)
-    # 4 V and 0.5 ohm deliver at most (4^2)/(4*0.5) = 8 W; 50 W is impossible.
-    sim = simulate_power(model, np.full(10, -50.0), 1.0, 25.0, min_voltage_v=0.0)
+    # 4.2 V behind 0.5 ohm give at most 4.2^2 / (4 x 0.5) = 8.8 W; 50 W is out of reach.
+    sim = simulate_power(model, np.full(10, -50.0), 1.0, 25.0, limits=Limits(min_voltage_v=0.1))
     assert len(sim.time_s) == 0
 
 
 def test_power_mode_caps_charging_current_and_voltage() -> None:
     model = _model()
     sim = simulate_power(
-        model, np.full(100, 20.0), 1.0, 25.0, initial_charge_ah=1.5, max_charge_a=1.5
+        model, np.full(100, 20.0), 1.0, 25.0, initial_charge_ah=1.5, limits=Limits(max_charge_a=1.5)
     )
     assert sim.current_a.max() == pytest.approx(1.5)
     full = simulate_power(model, np.full(100, 20.0), 1.0, 25.0, initial_charge_ah=0.0)
-    assert full.voltage_v.max() <= 4.2 + 1e-9
+    assert full.voltage_v.max() <= 4.2  # held from below: never above
     assert simulate_power(model, np.zeros(5), 1.0, 25.0).current_a == pytest.approx(np.zeros(5))
+
+
+# A cell of 4 V behind 50 mOhm, with a charge-transfer term, at 25 degC.
+EMF, R0, I0 = 4.0, 0.05, 2.0
+THERMAL = 2 * GAS_CONSTANT * (25.0 + KELVIN) / FARADAY
+
+
+def _voltage(i: float) -> float:
+    return EMF + R0 * i + THERMAL * math.asinh(i / (2 * I0))
+
+
+def _step(power_w: float, **limits: float) -> float | None:
+    return step_current(power_w, EMF, R0, THERMAL, I0, limits=Limits(**limits))  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize("power_w", [-30.0, -5.0, 5.0, 30.0])
+def test_step_current_gives_the_power(power_w: float) -> None:
+    i = _step(power_w, max_voltage_v=5.0)
+    assert i is not None
+    assert _voltage(i) * i == pytest.approx(power_w, rel=1e-9)
+    assert _voltage(i) > 2.8  # the root on the near side of the maximum-power point
+    assert _step(0.0) == 0.0
+
+
+def test_step_current_holds_the_current_limits() -> None:
+    assert _step(-30.0, max_discharge_a=2.0) == -2.0
+    assert _step(30.0, max_charge_a=1.5) == 1.5
+
+
+def test_step_current_holds_the_voltage_limits() -> None:
+    # Discharge: 60 W needs more than 20 A, with the voltage below 3 V, under a 3.5 V floor.
+    assert _step(-60.0, min_voltage_v=3.5) is None
+    held = _step(-60.0, min_voltage_v=3.5, voltage_floor=True)
+    assert held is not None
+    assert _voltage(held) == pytest.approx(3.5, abs=1e-9)
+    assert _voltage(held) >= 3.5  # held from above: never below
+    # The current limit is reached first: the cycler holds it, above the floor.
+    assert _step(-60.0, min_voltage_v=3.5, max_discharge_a=3.0) == -3.0
+    # Charge: 30 W would lift the cell above 4.1 V; it is held there.
+    capped = _step(30.0, max_voltage_v=4.1)
+    assert capped is not None
+    assert _voltage(capped) == pytest.approx(4.1, abs=1e-9)
+    assert _voltage(capped) <= 4.1
+    # A cell above its charge voltage takes no charge; one at its floor gives nothing.
+    assert step_current(5.0, 4.25, R0, THERMAL, I0, limits=Limits()) == 0.0
+    assert step_current(-5.0, 2.8, R0, THERMAL, I0, limits=Limits(voltage_floor=True)) is None
+
+
+def test_step_current_beyond_the_maximum_power_point() -> None:
+    # With the floor at 0.5 V, far below the voltage of maximum power (about emf / 2), the
+    # search starts past that point and must come back to the near side of it.
+    i = _step(-60.0, min_voltage_v=0.5)
+    assert i is not None
+    assert _voltage(i) * i == pytest.approx(-60.0, rel=1e-9)
+    assert _voltage(i) > EMF / 2
+    # 100 W is more than the cell can give at all: the run ends, or the cycler holds 0.5 V.
+    assert _step(-100.0, min_voltage_v=0.5) is None
+    held = _step(-100.0, min_voltage_v=0.5, voltage_floor=True)
+    assert held is not None
+    assert _voltage(held) == pytest.approx(0.5, abs=1e-9)
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "match"),
+    [
+        ({"min_voltage_v": 0.0}, "voltage range"),
+        ({"min_voltage_v": 4.3}, "voltage range"),
+        ({"max_charge_a": 0.0}, "current limits"),
+        ({"max_discharge_a": -1.0}, "current limits"),
+    ],
+)
+def test_limits_are_checked(kwargs: dict[str, float], match: str) -> None:
+    with pytest.raises(ValueError, match=match):
+        Limits(**kwargs)  # type: ignore[arg-type]
