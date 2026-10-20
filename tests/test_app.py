@@ -120,7 +120,7 @@ def test_a_drive_that_cannot_start_shows_a_message(monkeypatch: pytest.MonkeyPat
     monkeypatch.setattr(st, "info", shown.append)
     streamlit_app.tab_lab()
     assert shown
-    assert "cannot start this drive" in shown[0]
+    assert "can't start this drive" in shown[0]
 
 
 def test_https_link_refuses_anything_but_plain_https() -> None:
@@ -142,12 +142,12 @@ def test_temperature_label() -> None:
 
 def test_current_limits_in_words() -> None:
     assert streamlit_app.current_limits(-20.0) == (
-        "the discharge current is limited to 6 A and the charging current of regenerative "
+        "the discharge current is limited to 6 A and the charging current from regenerative "
         "braking to 1.5 A"
     )
     assert streamlit_app.current_limits(25.0) == (
-        "the charging current of regenerative braking is limited to 6 A; the discharge current "
-        "is not limited"
+        "the charging current from regenerative braking is limited to 6 A, and the discharge "
+        "current is not limited"
     )
 
 
@@ -161,11 +161,11 @@ def test_the_counts_shown_are_those_of_the_data(app: AppTest) -> None:
     tests, excluded = len(data["variants"]["charge_transfer"]), len(data["excluded"])
     assert f"checked on {tests} drive-cycle tests" in _text(app.sidebar.markdown)
     text = _text(app.markdown)
-    assert f"{tests} drive-cycle tests the identification never saw" in text
-    assert f"{excluded} tests of the dataset are unusable" in text
+    assert f"{tests} drive-cycle tests that were not used for fitting" in text
+    assert f"{excluded} tests of the dataset can't be used" in text
 
 
 def test_cold_weather_compares_the_cold_us06_test_with_the_lab(app: AppTest) -> None:
     assert (
-        "delivered 82% of the discharge energy the first cycle asked for, and the model gives 79%"
+        "it gave 82% of the discharge energy the first cycle asked for, and the model gives 79%"
     ) in _text(app.markdown)

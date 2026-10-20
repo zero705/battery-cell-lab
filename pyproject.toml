@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "battery-cell-lab"
 version = "0.1.0"
-description = "An equivalent circuit model of the LG 18650HG2 lithium-ion cell, identified from McMaster University test data and validated on 62 drive-cycle tests from -20 to 40 degC"
+description = "Equivalent circuit model of the LG 18650HG2 lithium-ion cell, fitted to McMaster University test data and checked on 62 drive-cycle tests from -20 to 40 degC"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]

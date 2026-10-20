@@ -222,9 +222,9 @@ def validation_tests() -> int:
 def sidebar() -> None:
     st.sidebar.header("Battery Cell Lab")
     st.sidebar.markdown(
-        "A model of one LG 18650HG2 lithium-ion cell (3 Ah, NMC / graphite + SiO), identified "
-        f"from McMaster University's laboratory tests and checked on {validation_tests()} "
-        "drive-cycle tests from -20 to 40 °C."
+        "A model of one LG 18650HG2 lithium-ion cell (3 Ah, NMC / graphite + SiO), fitted to "
+        f"McMaster University's lab tests and checked on {validation_tests()} drive-cycle "
+        "tests from -20 to 40 °C."
     )
     st.sidebar.markdown(
         https_link("Source code and method", REPOSITORY)
@@ -235,11 +235,11 @@ def sidebar() -> None:
 
 def tab_response() -> None:
     st.markdown(
-        "When a current starts, the voltage of a cell drops at once, then keeps sinking; when "
-        "the current stops, it jumps back part of the way and then creeps back over minutes. "
-        "The model explains this with a small circuit: the **open-circuit voltage**, an "
-        "**ohmic** resistance (the instant step), a **charge-transfer** term that grows less "
-        "than in proportion to the current, and two **RC pairs**, a fast one and a slow one."
+        "When a current starts, the cell's voltage drops at once and then keeps sinking. When "
+        "the current stops, it jumps back part of the way and then slowly recovers over "
+        "minutes. The model explains this with a small circuit: the **open-circuit voltage**, "
+        "an **ohmic** resistance (the instant step), a **charge-transfer** term that grows "
+        "slower than the current, and two **RC pairs**, a fast one and a slow one."
     )
     t_c = st.select_slider(
         "Chamber temperature",
@@ -256,9 +256,9 @@ def tab_response() -> None:
     discharge = float(-p["current_a"][p["current_a"] < -PULSE_A].median())
     charge = float(p["current_a"][p["current_a"] > PULSE_A].median())
     st.markdown(
-        f"Below, from the HPPC test at {temperature_label(t_c)}: a real {discharge:.2g} A "
-        f"discharge pulse ({discharge / NOMINAL_AH:.2g}C) for 10 s, 40 s of rest, a "
-        f"{charge:.2g} A charge pulse and the rest after it, at about half charge."
+        f"Below is a real pulse from the HPPC test at {temperature_label(t_c)}, at about half "
+        f"charge: a {discharge:.2g} A discharge ({discharge / NOMINAL_AH:.2g}C) for 10 s, 40 s "
+        f"of rest, a {charge:.2g} A charge pulse and the rest after it."
     )
     sim = simulate_current(
         get_model(),
@@ -294,16 +294,17 @@ def tab_response() -> None:
     )
     error = 1e3 * (sim.voltage_v - p["voltage_v"].to_numpy())
     st.caption(
-        f"Over this excerpt the model is {np.sqrt(np.mean(error**2)):.1f} mV RMS from the "
-        "measurement. The pulse is part of the test the parameters were identified from."
+        f"Over this part the model is {np.sqrt(np.mean(error**2)):.1f} mV RMS away from the "
+        "measurement. This pulse is from the test the model was fitted to, so it is not a "
+        "check of the model, just a look inside it."
     )
 
 
 def tab_circuit() -> None:
     st.markdown(
-        "Each parameter was fitted at every state of charge of the HPPC test, at each of six "
-        "temperatures. Between them the model interpolates: linearly in the charge removed, and "
-        "in temperature along the Arrhenius law (the logarithm of each value linear in 1/T)."
+        "Each parameter was fitted at every state of charge of the HPPC test, at six "
+        "temperatures. In between, the model interpolates: linearly in the charge removed, and "
+        "along the Arrhenius law in temperature (the log of each value is linear in 1/T)."
     )
     data = get_model_data()
     rows = []
@@ -381,10 +382,10 @@ def tab_circuit() -> None:
     )
     st.altair_chart(chart, width="stretch")
     st.caption(
-        "The open-circuit voltage takes the shape of the C/20 discharge and passes through the "
-        "voltages at the end of the hour-long rests of the HPPC test. Levels whose slow time "
-        "constant is longer than any rest in their window cannot be identified and are left "
-        f"out ({dropped} of {levels})."
+        "The open-circuit voltage has the shape of the C/20 discharge and goes through the "
+        "voltages at the end of the hour-long rests in the HPPC test. Levels whose slow time "
+        "constant is longer than any rest in their window can't be identified, so they are "
+        f"left out ({dropped} of {levels})."
     )
 
 
@@ -393,23 +394,23 @@ def current_limits(t_c: float) -> str:
     discharge, charge = lab.discharge_limit_a(t_c), lab.regen_limit_a(t_c)
     if math.isinf(discharge):
         return (
-            f"the charging current of regenerative braking is limited to {charge:g} A; the "
-            "discharge current is not limited"
+            f"the charging current from regenerative braking is limited to {charge:g} A, and "
+            "the discharge current is not limited"
         )
     return (
-        f"the discharge current is limited to {discharge:g} A and the charging current of "
+        f"the discharge current is limited to {discharge:g} A and the charging current from "
         f"regenerative braking to {charge:g} A"
     )
 
 
 def tab_lab() -> None:
     st.markdown(
-        "Drive the cell with a car's power demand, the way the laboratory did: the same power "
-        "profile, computed for one cell of a compact electric car, over and over. The tester "
-        "limited the current in the cold and never let the voltage fall below 2.8 V; when the "
-        "cell cannot give the power within these limits, it gives what it can. The drive ends "
-        f"with the first cycle in which it gives less than {lab.MIN_SHARE:.0%} of the energy the "
-        "cycle asks for."
+        "Drive the cell with a car's power demand, the same way the lab did: the same power "
+        "profile, made for one cell of a compact electric car, over and over. The lab limited "
+        "the current in the cold and never let the voltage go below 2.8 V. When the cell can't "
+        "give the power within these limits, it gives what it can. The drive ends with the "
+        f"first cycle where it gives less than {lab.MIN_SHARE:.0%} of the energy the cycle asks "
+        "for."
     )
     c1, c2, c3 = st.columns(3)
     cycle = c1.selectbox(
@@ -420,8 +421,8 @@ def tab_lab() -> None:
     summary, trace = run_drive(cycle, float(t_c), soc / 100)
     if trace.empty:
         st.info(
-            f"From {soc} % at {t_c} °C the cell cannot start this drive without falling below "
-            "2.8 V. Choose a higher state of charge or a warmer cell."
+            f"From {soc} % at {t_c} °C the cell can't start this drive without going below "
+            "2.8 V. Try a higher state of charge or a warmer cell."
         )
         return
     m1, m2, m3, m4 = st.columns(4)
@@ -432,10 +433,10 @@ def tab_lab() -> None:
     y = st.radio("Show", list(trace.columns[1:]), horizontal=True, key="lab_show")
     st.altair_chart(line_chart(trace, "hours", y, None, y), width="stretch")
     st.caption(
-        f"The cell is held at {t_c} °C and gave {summary['share']:.1%} of the discharge "
-        f"energy demanded. As in the tests at this temperature, {current_limits(float(t_c))}. "
-        "State of charge is counted against the 25 °C capacity. The trace is shown every 5 s; "
-        "the model runs every second."
+        f"The cell is kept at {t_c} °C and gave {summary['share']:.1%} of the discharge energy "
+        f"asked for. As in the tests at this temperature, {current_limits(float(t_c))}. State "
+        "of charge is counted against the 25 °C capacity. The plot shows every 5th second, the "
+        "model itself runs every second."
     )
 
 
@@ -445,14 +446,14 @@ US06_COLD_SHARE_MEASURED = 0.82  # tests/test_raw_data.py recomputes it from the
 def tab_cold() -> None:
     modelled = run_drive("US06", -20.0, 1.0)[0]["share"]
     st.markdown(
-        "The same drive at six temperatures. In the cold the cell's resistance rises, so the "
-        "voltage sags further under the same power, the current must rise to make up for it, "
-        "and the 2.8 V limit comes sooner: the cell gives less of its energy, and more of it "
-        "turns into heat. The tests also limited the current in the cold. On US06 at -20 °C "
-        "the cell falls behind from the first cycle: in the laboratory test it delivered "
+        "The same drive at six temperatures. In the cold the cell's resistance goes up, so the "
+        "voltage drops more under the same power. The current has to rise to make up for it, "
+        "and the 2.8 V limit comes sooner. So the cell gives less of its energy, and more of it "
+        "turns into heat. On top of that, the lab limited the current in the cold. On US06 at "
+        "-20 °C the cell falls behind from the very first cycle: in the real test it gave "
         f"{US06_COLD_SHARE_MEASURED:.0%} of the discharge energy the first cycle asked for, and "
-        f"the model gives {modelled:.0%}. At 40 °C the cell gives a little less than at 25 °C on "
-        "three of the cycles, as in the data, where it gave less charge at 40 °C."
+        f"the model gives {modelled:.0%}. At 40 °C the cell gives a bit less than at 25 °C on "
+        "three of the cycles. That is in the data too, the cell gave less charge at 40 °C."
     )
     cycle = st.selectbox(
         "Drive cycle", CYCLES, format_func=CYCLE_LABELS.__getitem__, key="cold_cycle"
@@ -466,7 +467,7 @@ def tab_cold() -> None:
                 "Energy delivered (Wh)": summary["energy_wh"],
                 "Lost as heat (Wh)": summary["heat_wh"],
                 "Driving time (h)": summary["duration_h"],
-                "Energy demanded that was delivered": summary["share"],
+                "Share of the energy asked for": summary["share"],
             }
         )
     frame = pd.DataFrame(rows)
@@ -492,23 +493,23 @@ def tab_cold() -> None:
     )
     st.altair_chart(chart, width="stretch")
     shown = frame.style.format(precision=2).format(
-        "{:.0%}", subset=["Energy demanded that was delivered"]
+        "{:.0%}", subset=["Share of the energy asked for"]
     )
     st.dataframe(shown, hide_index=True, width="stretch")
     st.caption(
-        "The model holds the cell at the chosen temperature; a real cell warms up as it works, "
-        "by about 2 to 5 °C in the -20 °C tests. The model's error is largest in the cold "
-        "(see Validation)."
+        "The model keeps the cell at the chosen temperature, but a real cell warms up as it "
+        "works, by about 2 to 5 °C in the -20 °C tests. The model's error is also largest in "
+        "the cold (see Validation)."
     )
 
 
 def tab_validation() -> None:
     frame = get_validation()
     st.markdown(
-        "The model was given the measured current and cell temperature of every usable "
-        "drive-cycle test and predicted the voltage; none of these tests was used to identify it. "
-        "Mixed1-4 served to compare modelling choices (development set); the other tests "
-        "were run once, with the final model (test set)."
+        "For every usable drive-cycle test the model got the measured current and cell "
+        "temperature, and predicted the voltage. None of these tests was used for fitting. I "
+        "used Mixed1-4 to compare modelling choices (development set). The other tests were run "
+        "once, with the final model (test set)."
     )
     main = frame[frame["variant"] == "charge_transfer"]
     summary = (
@@ -581,24 +582,32 @@ def tab_validation() -> None:
 def tab_method() -> None:
     st.markdown(
         f"""
-**Data.** P. Kollmeyer, M. Naguib, M. Skells, *LG 18650HG2 Li-ion Battery Data*, McMaster
-University, Mendeley Data, version 2, 2020, {https_link("doi:10.17632/b5mj79w5w9.2", DATASET_DOI)},
-licence CC BY 4.0. A new 3 Ah cell in a thermal chamber, on a Digatron cycler (voltage and
-current within 0.1 % of full scale); HPPC, C/20 and drive-cycle tests at -20, -10, 0, 10, 25
-and 40 °C. Every file is checked against the SHA-256 that Mendeley publishes.
+**Data**
 
-**Model.** Open-circuit voltage + ohmic resistance + Butler-Volmer charge transfer + two RC
-pairs, all functions of the charge removed and the temperature.
+P. Kollmeyer, M. Naguib, M. Skells, *LG 18650HG2 Li-ion Battery Data*, McMaster University,
+Mendeley Data, version 2, 2020, {https_link("doi:10.17632/b5mj79w5w9.2", DATASET_DOI)}, licence
+CC BY 4.0. A new 3 Ah cell in a thermal chamber, tested on a Digatron cycler (voltage and
+current accurate to 0.1 % of full scale), with HPPC, C/20 and drive-cycle tests at -20, -10, 0,
+10, 25 and 40 °C. Every file is checked against the SHA-256 that Mendeley publishes.
 
-**Identification.** Open-circuit voltage from the C/20 discharge, moved onto the HPPC rest
-voltages. Circuit parameters fitted to every state of charge of the HPPC test by variable
-projection with non-negative least squares, from several starting points.
+**Model**
 
-**Validation.** {validation_tests()} drive-cycle tests the identification never saw, with
-measured current and temperature as inputs; {len(json_validation()["excluded"])} tests of the
-dataset are unusable and are listed in the repository with the reason.
+Open-circuit voltage + ohmic resistance + Butler-Volmer charge transfer + two RC pairs. All of
+them depend on the charge removed and the temperature.
 
-The full account: {https_link("README and docs", REPOSITORY)}.
+**Fitting**
+
+The open-circuit voltage comes from the C/20 discharge, moved onto the HPPC rest voltages. The
+circuit parameters are fitted at every state of charge of the HPPC test, by variable projection
+with non-negative least squares, from several starting points.
+
+**Validation**
+
+{validation_tests()} drive-cycle tests that were not used for fitting, with the measured current
+and temperature as inputs. {len(json_validation()["excluded"])} tests of the dataset can't be
+used, and they are listed in the repository with the reason.
+
+Everything in detail: {https_link("README and docs", REPOSITORY)}.
 """
     )
 
@@ -608,8 +617,8 @@ def main() -> None:
     sidebar()
     st.title("Battery Cell Lab", anchor=False)
     st.caption(
-        "An equivalent circuit model of the LG 18650HG2 lithium-ion cell, identified from "
-        "laboratory tests and validated on drive cycles from -20 to 40 °C."
+        "An equivalent circuit model of the LG 18650HG2 lithium-ion cell, fitted to lab tests "
+        "and checked on drive cycles from -20 to 40 °C."
     )
     tabs = st.tabs(
         [

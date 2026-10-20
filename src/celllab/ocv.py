@@ -9,16 +9,16 @@ Two tests of the dataset measure it, and neither alone is enough:
   the voltage lies below the open-circuit voltage by the cell's polarisation at 0.15 A.
 
 The curve used here takes the shape of the C/20 discharge and moves it onto the rest points:
-open-circuit voltage = C/20 discharge voltage + an offset that passes through every rest point,
-interpolated between them (monotone cubic, PCHIP). Predicting each rest point from the others
-(leave_one_out below; data/model.json records the result), this is off by 8.9 mV RMS over the
+open-circuit voltage = C/20 discharge voltage + an offset that goes through every rest point,
+interpolated between them (monotone cubic, PCHIP). If each rest point is predicted from the
+others (leave_one_out below, the result is in data/model.json), the error is 8.9 mV RMS over the
 six temperatures, against 17.8 mV for a curve through the rest points alone
-(tests/test_raw_data.py checks both figures).
+(tests/test_raw_data.py checks both numbers).
 
-The charge removed is counted from the full cell. The C/20 charge half is not used: at 0.15 A
+The charge removed is counted from the full cell. The C/20 charge half is not used. At 0.15 A
 the cycler's current accuracy (0.1 % of its 75 A range, ±75 mA) is half the current, and its
-charge count disagrees with the discharge by up to 0.19 Ah, while the HPPC steps, at 0.87 to
-0.9 A, count consistently with the discharge (at 25 degC both remove 2.78 Ah to 2.8 V).
+charge count differs from the discharge by up to 0.19 Ah. The HPPC steps, at 0.87 to 0.9 A,
+agree with the discharge (at 25 degC both remove 2.78 Ah down to 2.8 V).
 """
 
 from __future__ import annotations

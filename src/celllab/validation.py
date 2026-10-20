@@ -1,17 +1,17 @@
-"""Checking the model against the drive-cycle tests, which the identification never sees.
+"""Checking the model on the drive-cycle tests, which are not used for fitting.
 
 Each drive-cycle test starts from a full cell that has rested at the chamber temperature. The
-model is given the measured current and the measured cell temperature, starts from rest with
-nothing removed, and predicts the terminal voltage; the prediction is compared with the measured
-voltage over the whole test, sample by sample, the rest at its end included.
+model gets the measured current and the measured cell temperature, starts from rest with nothing
+removed, and predicts the terminal voltage. The prediction is compared with the measured voltage
+over the whole test, sample by sample, including the rest at the end.
 
 The tests are split in two. The choices made after a first run of the model (the slope
-correction and the identifiability rule of identify.py) were compared on the development set,
-the Mixed1-4 cycles, alone; the test set, the other cycles, was run only with the final model.
+correction and the identifiability rule in identify.py) were compared only on the development
+set, the Mixed1-4 cycles. The test set, the other cycles, was only run with the final model.
 
-Besides the error over the whole test, each result says where the error sits: while the cell
-charges (regenerative braking) or discharges, and at the end of discharge, the last tenth of
-the charge the test removes.
+Besides the error over the whole test, each result says where the error is: while the cell
+charges (regenerative braking) or discharges, and at the end of discharge, which here means the
+last tenth of the charge the test removes.
 """
 
 from __future__ import annotations

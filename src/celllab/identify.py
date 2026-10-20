@@ -1,29 +1,30 @@
-"""Identifying the circuit parameters from the HPPC test.
+"""Fitting the circuit parameters to the HPPC test.
 
-At every state of charge the HPPC test gives four pulse pairs, each a 10 s discharge pulse (for
-example 1, 2, 4 and 6C), 40 s of rest, a 10 s charge pulse and a 10-minute rest; then a step
-discharge at 0.3C to the next state of charge and an hour of rest. One window of the fit runs
-from the end of one hour-long rest to the end of the next, so it holds all eight pulses, the
-step and the relaxation after it (see windows() for the ends of the test).
+At every state of charge the HPPC test runs four pulse pairs. Each one is a 10 s discharge pulse
+(for example 1, 2, 4 and 6C), 40 s of rest, a 10 s charge pulse and 10 minutes of rest. Then
+comes a 0.3C discharge step to the next state of charge and an hour of rest. One fit window goes
+from the end of one hour-long rest to the end of the next, so it has all eight pulses, the step
+and the relaxation after it (windows() handles the two ends of the test).
 
-In each window the parameters are fitted to the measured voltage by least squares. The voltage
-is linear in R0, R1 and R2 once tau1, tau2 and i0 are fixed, so the fit searches only over those
-three and solves for the resistances exactly at each step, with R >= 0 (variable projection with
-non-negative least squares). The search starts from several points and keeps the best, so that
-it does not stop in a local minimum. tau1 is searched in 0.1-20 s and tau2 in 20-2000 s, which
+In each window the parameters are fitted to the measured voltage by least squares. Once tau1,
+tau2 and i0 are fixed, the voltage is linear in R0, R1 and R2. So the search only runs over those
+three, and at each step the resistances are solved exactly with R >= 0 (variable projection with
+non-negative least squares). The search starts from several points and keeps the best one, so it
+doesn't get stuck in a local minimum. tau1 is searched in 0.1-20 s and tau2 in 20-2000 s, which
 keeps the two RC pairs on separate time scales.
 
 The window starts from rest (the RC voltages are zero). The open-circuit voltage along it is the
-curve of ocv.py plus a straight-line correction in the charge removed, fitted with the
-resistances: without it, an error in the slope of the curve within the window (largest near
-empty, where the curve is steep) is taken up by the slow RC pair, whose resistance and time
-constant then grow well beyond the cell's (a slope error of 0.1 V/Ah triples both in
-tests/test_identify.py). The correction only serves the fit; the model uses the curve of ocv.py.
+curve from ocv.py plus a straight-line correction in the charge removed, fitted together with
+the resistances. Without it, an error in the slope of the curve inside the window (largest near
+empty, where the curve is steep) gets taken up by the slow RC pair, and its resistance and time
+constant come out much bigger than the cell's (a slope error of 0.1 V/Ah triples both in
+tests/test_identify.py). The correction is only for the fit. The model uses the curve from
+ocv.py.
 
-A time constant can only be identified from a relaxation at least as long as itself. A level
-whose tau2 exceeds the longest rest in its window is marked unidentifiable, and the model does
-not use it (model_file.py). This drops the lowest state of charge at 10, 25 and 40 degC, where
-the window ends with a 10-minute rest and the fit puts tau2 at 634 to 934 s.
+A time constant can only be found from a relaxation at least as long as itself. A level whose
+tau2 is longer than the longest rest in its window is marked as not identifiable, and the model
+doesn't use it (model_file.py). This drops the lowest state of charge at 10, 25 and 40 degC,
+where the window ends with a 10-minute rest and the fit puts tau2 at 634 to 934 s.
 """
 
 from __future__ import annotations

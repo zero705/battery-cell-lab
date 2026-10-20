@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # Reports known vulnerabilities in the dependency tree. It does not fail the build:
-    # a new advisory upstream is news to act on, not a reason to mark the code broken.
+    # a new advisory is something to fix, not a sign that the code is broken.
     continue-on-error: true
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

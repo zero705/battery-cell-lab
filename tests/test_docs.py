@@ -19,7 +19,7 @@ import numpy as np
 import pytest
 from conftest import REPORT_RESISTANCE_MOHM
 
-from celllab import catalog, identify, lab
+from celllab import catalog, identify, lab, validation
 from celllab.ecm import FARADAY, GAS_CONSTANT, KELVIN, CellModel, charge_transfer_v
 from celllab.model_file import read
 
@@ -77,14 +77,19 @@ def test_update_docs_check_mode_reports_nothing_stale() -> None:
 def test_headline_numbers() -> None:
     rms = _rms(_validation())
     median = statistics.median(rms)
-    assert f"median of **{median:.0f} mV RMS**, under 1 % of the cell's nominal 3.6 V" in README
+    assert (
+        f"Over all {len(rms)} tests the median error is **{median:.0f} mV RMS**. That is less "
+        "than 1 % of the cell's nominal voltage of 3.6 V"
+    ) in README
     assert median / 3600 < 0.01
-    assert f"**{len(rms)} drive-cycle tests" in README
+    assert f"checked it on {len(rms)} drive-cycle tests from -20 to 40 °C" in README
     test = [r for r in _validation() if r["split"] == "test"]
-    assert f"the other {len(test)} tests (test set)" in README
+    assert f"The other {len(test)} tests (test set) I ran once at the end" in README
     worst_linear = max(_rms(_validation("linear"), -20.0))
     worst = max(_rms(_validation(), -20.0))
-    assert f"from {worst_linear:.0f} to {worst:.0f} mV" in README
+    assert f"and the worst test from {worst_linear:.0f} to {worst:.0f} mV" in README
+    assert validation.DEVELOPMENT == ("Mixed1", "Mixed2", "Mixed3", "Mixed4")
+    assert "looking only at the Mixed1-4 cycles (development set)" in README
 
 
 def test_what_the_charge_transfer_term_changes() -> None:
@@ -95,12 +100,12 @@ def test_what_the_charge_transfer_term_changes() -> None:
         )
 
     warm = max(abs(ct - lin) for ct, lin in map(medians, (0.0, 10.0, 25.0, 40.0)))
-    assert f"from 0 °C up the term changes the median by at most {warm:.1f} mV" in README
+    assert f"From 0 °C up the term changes the median by at most {warm:.1f} mV" in README
     for t_c in (-20.0, -10.0):
         ct, lin = medians(t_c)
         assert ct < lin
     ct, lin = medians(-20.0)
-    assert f"(at -20 °C from {lin:.1f} to {ct:.1f} mV)" in README
+    assert f"at -20 °C the median goes from {lin:.1f} to {ct:.1f} mV" in README
 
 
 def test_where_the_error_comes_from() -> None:
@@ -108,31 +113,40 @@ def test_where_the_error_comes_from() -> None:
     warm = [r for r in rows if r["ambient_c"] >= 10]
     at_end = sum(r["largest_at_end"] for r in warm)
     assert (
-        f"in {at_end} of the {len(warm)} tests the largest error lies in the last tenth" in README
-    )
+        f"In {at_end} of the {len(warm)} tests the largest error is in the last tenth of the "
+        "charge removed"
+    ) in README
     cold = [r for r in rows if r["ambient_c"] == -20]
     charging = [r["mean_charging_mv"] for r in cold]
-    assert f"In each of the {WORDS[len(cold)]} -20 °C tests" in README
-    assert f"runs {min(charging):.0f} to {max(charging):.0f} mV high on average" in README
     assert min(charging) > 0
+    assert (
+        f"In all {WORDS[len(cold)]} -20 °C tests the model's voltage is too high while the cell "
+        f"is being charged by regenerative braking, by {min(charging):.0f} to "
+        f"{max(charging):.0f} mV on average"
+    ) in README
     others = [r["mean_discharging_mv"] for r in cold if r["kind"] != "US06"]
     assert max(abs(e) for e in others) < 20
-    assert f"stays within 20 mV in {WORDS[len(others)]} of them" in README
+    assert (
+        f"the mean error stays within 20 mV in {WORDS[len(others)]} of the {WORDS[len(cold)]} tests"
+    ) in README
     (us06,) = [r["mean_discharging_mv"] for r in cold if r["kind"] == "US06"]
     assert us06 < -20
-    assert f"(US06: {abs(us06):.0f} mV low)" in README
+    assert f"US06 is the exception, {abs(us06):.0f} mV low" in README
     time = statistics.median(r["charging_time_share"] for r in cold)
     error = statistics.median(r["charging_error_share"] for r in cold)
     assert (
-        f"Charging takes {100 * time:.0f} % of the time at -20 °C but carries {100 * error:.0f} % "
-        "of the squared error"
+        f"Charging is only {100 * time:.0f} % of the time at -20 °C, but {100 * error:.0f} % of "
+        "the squared error comes from it"
     ) in README
     for t_c in TEMPERATURES:
         at_t = [r for r in rows if r["ambient_c"] == t_c]
         assert max(at_t, key=lambda r: r["rms_mv"])["kind"] == "US06", t_c
+    assert "has the largest error at every temperature" in README
     low = [-r["mean_discharging_mv"] for r in rows if r["kind"] == "US06"]
     assert min(low) > 0
-    assert f"by {min(low):.0f} to {max(low):.0f} mV on average while the cell discharges" in README
+    assert (
+        f"too low while the cell discharges, by {min(low):.0f} to {max(low):.0f} mV on average"
+    ) in README
 
 
 def test_cross_checks() -> None:
@@ -140,21 +154,27 @@ def test_cross_checks() -> None:
     assert f"{figures} and {REPORT_RESISTANCE_MOHM['40degC']:.1f} mΩ from -20 to 40 °C" in README
     assert f"{figures} and {REPORT_RESISTANCE_MOHM['40degC']:.1f} mΩ from -20 to 40 °C" in METHOD
     measured = streamlit_app.US06_COLD_SHARE_MEASURED  # recomputed by tests/test_raw_data.py
-    assert f"to {100 * measured:.0f} % of the discharge energy the first cycle demands" in README
+    assert (
+        f"the cell gave only {100 * measured:.0f} % of the discharge energy the first cycle "
+        "asked for"
+    ) in README
     assert f"held the cell to {100 * measured:.0f} % of the first period's" in METHOD
     files = _json("dataset.json")["files"]
-    assert f"All {len(files)} test files are checked" in README
+    assert f"All {len(files)} files are checked against the SHA-256 hashes" in README
+    assert f"I went through all {len(files)} files" in README
     excluded = WORDS[len(catalog.EXCLUDED)]
-    assert f"the {excluded} unusable tests are left out" in README
-    assert f"{excluded.capitalize()} drive-cycle tests cannot be used" in DATA_MD
-    assert f"{excluded} unusable drive-cycle tests are left out" in CHANGELOG
+    assert f"But {excluded} of the drive-cycle tests can't be used" in README
+    assert f"{excluded.capitalize()} drive-cycle tests can't be used" in DATA_MD
+    assert f"{excluded.capitalize()} unusable drive-cycle tests are left out" in CHANGELOG
+    assert f"Download of the McMaster LG 18650HG2 data ({len(files)} files)" in CHANGELOG
 
 
 def test_the_lab_numbers(model: CellModel) -> None:
     cold = lab.drive(model, lab.load_profiles()["US06"], "US06", -20.0)
     assert cold.cycles_completed == 1.0  # so its share is that of the first period
-    assert f"and limits, gives {100 * cold.share_delivered:.0f} %" in README
-    assert f"limits at -20 °C, gives {100 * cold.share_delivered:.0f} %" in METHOD
+    share = 100 * cold.share_delivered
+    assert f"with the same demand and the same limits, gives {share:.0f} %" in README
+    assert f"limits at -20 °C, gives {share:.0f} %" in METHOD
     profiles = lab.load_profiles()
     lower = sum(
         lab.drive(model, profiles[c], c, 40.0).energy_wh
@@ -162,7 +182,7 @@ def test_the_lab_numbers(model: CellModel) -> None:
         for c in profiles
     )
     assert lower == 3
-    assert "a little less than at 25 °C on three of the four cycles" in README
+    assert "a bit less energy than at 25 °C on three of the four cycles" in README
     periods = ", ".join(f"{p} s ({c})" for c, p in list(validate_model.PERIOD_S.items())[:-1])
     assert f"{periods} and 601 s (US06)" in METHOD
     assert validate_model.PERIOD_S["US06"] == 601
@@ -176,7 +196,7 @@ def test_the_lab_numbers(model: CellModel) -> None:
 def test_open_circuit_voltage_numbers() -> None:
     model = read()
     loo = model["ocv_leave_one_out"]
-    assert f"off by {loo['rms_mv']:.1f} mV RMS" in README
+    assert f"predict it from the others, the error is {loo['rms_mv']:.1f} mV RMS" in README
     assert f"(leave one out, {loo['points']} points over the six temperatures)" in METHOD
     assert f"(used) | {loo['rms_mv']:.1f} mV | {loo['max_abs_mv']:.0f} mV |" in METHOD
     points = [len(e["rest_points"]) for e in model["temperatures"]]
@@ -207,7 +227,7 @@ def test_identification_numbers() -> None:
         for lv in e["variants"]["charge_transfer"]["levels"]
     ]
     dropped = [lv for _, lv in levels if not lv["identifiable"]]
-    assert f"({len(dropped)} of {len(levels)})" in README
+    assert f"({len(dropped)} of {len(levels)} levels)" in README
     tau2 = [lv["tau2_s"] for lv in dropped]
     assert f"put tau2 at {min(tau2):.0f} to {max(tau2):.0f} s" in METHOD
     used = [(t_c, lv) for t_c, lv in levels if lv["identifiable"]]
@@ -228,7 +248,7 @@ def test_identification_numbers() -> None:
     i0, r0 = half[25.0]["i0_a"], half[25.0]["r0_ohm"]
     r_ct = GAS_CONSTANT * (25.0 + KELVIN) / (FARADAY * i0)
     assert f"With i0 = {i0:.1f} A, its value at 25 °C" in METHOD
-    assert f"amounts to {r_ct * 1e3:.1f} mΩ at small currents" in METHOD
+    assert f"the charge-transfer term is {r_ct * 1e3:.1f} mΩ at small currents" in METHOD
     assert f"against {r0 * 1e3:.1f} mΩ for R0" in METHOD
     # The circuit without the term: below a nanovolt even at 20 A and 50 degC.
     eta = charge_transfer_v(
@@ -243,8 +263,8 @@ def test_development_numbers() -> None:
     dev = [r for r in rows if r["split"] == "development"]
     test = [r for r in rows if r["split"] == "test"]
     assert development["development_tests"] == len(dev)
-    assert f"the Mixed1-4 cycles ({len(dev)} tests) became the development set" in METHOD
-    assert f"and the other {len(test)} tests the test set" in METHOD
+    assert f"The Mixed1-4 cycles ({len(dev)} tests) became the development set" in METHOD
+    assert f"The other {len(test)} tests became the test set" in METHOD
     # The final variant of the comparison is the model: the same error on every test.
     both = development["variants"]["both"]["development"]["rms_mv"]
     assert both == {f"{r['folder']}/{r['kind']}": pytest.approx(r["rms_mv"], rel=1e-4) for r in dev}
@@ -256,7 +276,7 @@ def test_development_numbers() -> None:
     first = development["first_on_every_test"]
     assert first["tests"] == len(rows)
     assert (
-        f"was run once on all {len(rows)} tests. Its median error was {first['median_mv']:.1f}"
+        f"I ran it once on all {len(rows)} tests. Its median error was {first['median_mv']:.1f} mV"
         in METHOD
     )
     assert (
@@ -282,9 +302,14 @@ def test_development_numbers() -> None:
 def test_counts_in_every_document() -> None:
     tests = len(_validation())
     pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    assert f"validated on {tests} drive-cycle tests" in pyproject
+    assert f"checked on {tests} drive-cycle tests" in pyproject
+    assert re.search(r"^fail_under = 100$", pyproject, re.MULTILINE)  # the "100 %" of the docs
+    assert "Tests for the model, the app and every number in the docs (100 % coverage)" in (
+        CHANGELOG
+    )
     assert f"Validation on {tests} drive-cycle tests" in CHANGELOG
     assert f"That leaves {tests} drive-cycle tests" in DATA_MD
+    assert f"which leaves {tests} tests" in README
     size_mb = sum(f["size"] for f in _json("dataset.json")["files"]) / 1e6
     files = len(_json("dataset.json")["files"])
     assert f"# {files} files, {size_mb:.0f} MB, each checked" in README

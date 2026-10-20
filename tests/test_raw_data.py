@@ -100,7 +100,7 @@ def test_ocv_constructions_compared_by_leave_one_out() -> None:
         ("Straight lines between the rest points", lines),
     ):
         assert f"{label} | {rms(construction):.1f} mV | {largest(construction):.0f} mV |" in METHOD
-    assert f"half the {rms(rest_only):.1f} mV of a curve through the rest points alone" in README
+    assert f"A curve through the rest points alone gets {rms(rest_only):.1f} mV" in README
     stored = read()["ocv_leave_one_out"]
     assert stored["rms_mv"] == pytest.approx(rms(hybrid), rel=1e-5)
     assert stored["max_abs_mv"] == pytest.approx(largest(hybrid), rel=1e-5)
@@ -147,7 +147,7 @@ def test_c20_and_hppc_capacities() -> None:
         currents = [float(-np.median(hppc.current_a[a:b])) for a, b in steps]
         assert min(currents) > 0.865, folder
         assert max(currents) < 0.905, folder
-    assert "The HPPC steps, at 0.87 to 0.9 A, count consistently" in METHOD
+    assert "The HPPC steps, at 0.87 to 0.9 A, agree with the C/20 discharge" in METHOD
     warm = float(ocv.c20_discharge(_c20("25degC"))[0][-1])
     hot = float(ocv.c20_discharge(_c20("40degC"))[0][-1])
     assert f"removed {hot:.3f} Ah, against {warm:.3f} Ah at 25 °C" in README
@@ -202,6 +202,7 @@ def test_hppc_rests_and_pulses() -> None:
                 [hppc.current_a[a:b] for a, b in identify.windows(hppc, points)]
             )
             assert charging.max() < 1.51  # the cold cell is charged at 1.5 A at most
+            assert "in the short 10 s pulses of the HPPC test, at most 1.5 A" in README
     # The timing of a pulse pair, at the second state of charge at 25 degC.
     hppc = _hppc("25degC")
     start, stop = identify.windows(hppc, ocv.rest_points(hppc))[1]
@@ -232,8 +233,8 @@ def test_ten_second_resistances_match_the_dataset_authors_report() -> None:
     for folder, mohm in REPORT_RESISTANCE_MOHM.items():
         if folder == "10degC":
             above = found[folder] - mohm
-            assert f"reads {found[folder]:.1f} mΩ, {above:.1f} mΩ above" in README
-            assert f"reads {found[folder]:.1f} mΩ, {above:.1f} mΩ above the report" in METHOD
+            assert f"At 10 °C I get {found[folder]:.1f} mΩ, {above:.1f} mΩ higher than" in README
+            assert f"pulse gives {found[folder]:.1f} mΩ, {above:.1f} mΩ above the report" in METHOD
         else:
             assert found[folder] == pytest.approx(mohm, abs=0.5), folder
 
@@ -384,6 +385,8 @@ def test_the_excluded_tests() -> None:
     assert catalog.EXCLUDED[("n10degC", "Mixed4")].startswith(reason)
     assert reason in DATA_MD
     assert f"nothing is logged for {gap:.0f} s, from {start:.0f} s into the test" in DATA_MD
+    assert start / mixed4.time_s[-1] < 0.1  # "early in the drive"
+    assert f"Mixed4 at -10 °C has a {gap:.0f} s gap in its log early in the drive" in README
     before, after = mixed4.voltage_v[k], mixed4.voltage_v[k + 1]
     assert f"the voltage falls from {before:.3f} to {after:.3f} V" in DATA_MD
     others = [
@@ -398,6 +401,8 @@ def test_the_excluded_tests() -> None:
 def test_the_drive_cycles_are_logged_every_tenth_of_a_second() -> None:
     for test, m in _drives():
         assert float(np.median(np.diff(m.time_s))) == pytest.approx(0.1, abs=0.002), test.kind
+    assert "every sample (logged every 0.1 s)" in README
+    assert "The drive cycles are logged every 0.1 s" in DATA_MD
 
 
 def test_the_largest_current_in_the_data() -> None:

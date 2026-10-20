@@ -1,22 +1,23 @@
-"""The virtual lab: drive the model with a vehicle's power demand, as the tests drove the cell.
+"""The virtual lab: drive the model with a car's power demand, the way the tests drove the cell.
 
-The dataset's drive-cycle tests apply a power profile "calculated for a single LG HG2 cell in a
+The dataset's drive-cycle tests use a power profile "calculated for a single LG HG2 cell in a
 compact electric vehicle" (the dataset's readme), repeated until the cell has given 95 % of its
-1C capacity. data/profiles.csv holds one period of each of the four standard cycles as the
+1C capacity. data/profiles.csv has one period of each of the four standard cycles, as the
 40 degC tests applied it.
 
-The tests limited the current. Discharge was held to 6 A at -20 degC and 12 A at -10 degC
-(from 0 degC up the cell followed the demand, up to 18 A), and the charging current of
-regenerative braking to 1.5 A at -20 degC, 3 A at -10 and 0 degC and 6 A from 10 degC: in the
-drive-cycle data the current sits at these values for long stretches and exceeds them by at
-most 0.3 A, briefly. And the cycler did not let the voltage fall below 2.8 V, the lowest the
-tests discharge to: it then gave what the cell could at 2.8 V. The lab does the same, with the
-limits of the nearest tested temperature at or below the one chosen. In the -20 degC US06 test
-these limits cut the discharge energy of the first period to 82 % of what the cycle demands.
+The tests limited the current. Discharge was held to 6 A at -20 degC and 12 A at -10 degC (from
+0 degC up the cell followed the demand, up to 18 A). The charging current of regenerative
+braking was held to 1.5 A at -20 degC, 3 A at -10 and 0 degC and 6 A from 10 degC. In the
+drive-cycle data the current sits at these values for long stretches and goes past them by at
+most 0.3 A, only for a moment. The cycler also never let the voltage fall below 2.8 V, the
+lowest the tests discharge to; there it gave what the cell could give at 2.8 V. The lab does
+the same, with the limits of the closest tested temperature at or below the one chosen. In the
+-20 degC US06 test these limits cut the discharge energy of the first period to 82 % of what
+the cycle asks for.
 
 The drive ends with the first period in which the cell gives less than MIN_SHARE of the
-discharge energy the cycle demands: from then on the car can no longer keep up with the cycle.
-This threshold is a definition of this lab, not a property of the cell.
+discharge energy the cycle asks for. From then on the car can't keep up with the cycle. This
+threshold is my definition for the lab, not a property of the cell.
 """
 
 from __future__ import annotations

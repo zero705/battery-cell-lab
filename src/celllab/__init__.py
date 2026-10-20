@@ -1,4 +1,4 @@
-"""A validated equivalent circuit model of the LG 18650HG2 lithium-ion cell."""
+"""An equivalent circuit model of the LG 18650HG2 lithium-ion cell."""
 
 from celllab.ecm import CellModel, Simulation, simulate_current, simulate_power
 from celllab.model_file import load_model

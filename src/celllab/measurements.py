@@ -2,8 +2,8 @@
 
 Each MATLAB file holds one test as a struct ``meas`` with the columns the dataset's readme
 describes: Time (s), Voltage (V, sense leads welded to the terminals), Current (A, positive when
-charging), Ah, Wh, Power (W) and Battery_Temp_degC (case temperature). What the raw files need,
-found by checking all 206 of them (tools/audit_dataset.py):
+charging), Ah, Wh, Power (W) and Battery_Temp_degC (case temperature). What I found by checking
+all 206 raw files (tools/audit_dataset.py), and how it is handled here:
 
 - In the 205 readable files, 5,751 rows in 176 files repeat the previous time stamp; 5,683 of
   them repeat the values too, the rest differ by at most 0.2 mV and 3 mA. The first row of each
