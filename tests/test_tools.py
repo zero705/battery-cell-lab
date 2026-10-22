@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
+import io
 import json
 import sys
+import time
+import urllib.error
+from email.message import Message
 from pathlib import Path
 
 import numpy as np
@@ -58,6 +62,53 @@ def test_other_addresses_are_refused(url: str) -> None:
 def test_download_refuses_plain_http() -> None:
     with pytest.raises(fetch_dataset.DownloadError, match="non-HTTPS"):
         fetch_dataset.download("http://data.mendeley.com/x")
+
+
+def test_a_short_failure_is_tried_again(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[str] = []
+
+    def flaky(url: str) -> bytes:
+        calls.append(url)
+        if len(calls) < 3:
+            raise urllib.error.URLError("connection reset")
+        return b"data"
+
+    waits: list[float] = []
+    monkeypatch.setattr(fetch_dataset, "download", flaky)
+    monkeypatch.setattr(time, "sleep", waits.append)
+    assert fetch_dataset.download_with_retries("https://x", wait_s=1.0) == b"data"
+    assert len(calls) == 3
+    assert waits == [1.0, 2.0]
+
+
+@pytest.mark.parametrize(
+    ("error", "attempts"),
+    [
+        (404, 1),
+        (403, 1),
+        (429, fetch_dataset.ATTEMPTS),
+        (503, fetch_dataset.ATTEMPTS),
+        (fetch_dataset.DownloadError("too large"), 1),
+    ],
+)
+def test_lasting_errors_end_the_run(
+    monkeypatch: pytest.MonkeyPatch, error: int | Exception, attempts: int
+) -> None:
+    calls: list[str] = []
+
+    def failing(url: str) -> bytes:
+        calls.append(url)
+        if isinstance(error, Exception):
+            raise error
+        raise urllib.error.HTTPError(url, error, "error", Message(), io.BytesIO())
+
+    monkeypatch.setattr(fetch_dataset, "download", failing)
+    monkeypatch.setattr(time, "sleep", lambda s: None)
+    with pytest.raises((urllib.error.HTTPError, fetch_dataset.DownloadError)) as raised:
+        fetch_dataset.download_with_retries("https://x")
+    if isinstance(raised.value, urllib.error.HTTPError):
+        raised.value.close()
+    assert len(calls) == attempts
 
 
 def test_the_audit_finds_gaps_only_while_the_current_flows() -> None:

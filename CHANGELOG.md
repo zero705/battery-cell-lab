@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+- A link to the live app in the README.
+- The app sets the sidebar text colour, so Streamlit 1.65 no longer prints a warning in the
+  browser console.
+- The download tool tries again when Mendeley fails for a moment, and CI keeps the raw data
+  between runs instead of downloading it on every push.
+
 ## [0.1.0] - 2026-10-20
 
 First release.
@@ -17,4 +25,5 @@ First release.
 - Tests for the model, the app and every number in the docs (100 % coverage), CI on Linux and
   Windows with Python 3.10 to 3.14, a dependency audit and CodeQL.
 
+[Unreleased]: https://github.com/zero705/battery-cell-lab/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/zero705/battery-cell-lab/releases/tag/v0.1.0

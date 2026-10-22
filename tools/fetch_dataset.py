@@ -14,6 +14,8 @@ import argparse
 import hashlib
 import json
 import sys
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -23,6 +25,8 @@ RAW = ROOT / "data" / "raw"
 MAX_BYTES = 20_000_000  # the largest published .mat file is under 4 MB
 ALLOWED_URL = "https://data.mendeley.com/public-files/datasets/b5mj79w5w9/files/"
 TIMEOUT_S = 120
+ATTEMPTS = 4  # a download that fails for a moment is tried again, after 15, 30 and 45 s
+WAIT_S = 15.0
 
 
 class DownloadError(RuntimeError):
@@ -45,6 +49,24 @@ def download(url: str) -> bytes:
     if len(data) > MAX_BYTES:
         raise DownloadError(f"{url} is larger than {MAX_BYTES} bytes")
     return data
+
+
+def download_with_retries(url: str, wait_s: float = WAIT_S) -> bytes:
+    """download(), tried again when the network or the server fails for a moment (a lost
+    connection, a time-out, HTTP 429 or 5xx). Any other error ends the run at once."""
+    for attempt in range(1, ATTEMPTS):
+        try:
+            return download(url)
+        except urllib.error.HTTPError as error:
+            if error.code != 429 and error.code < 500:
+                raise
+            reason = f"HTTP {error.code}"
+            error.close()  # the error holds the server's response open
+        except OSError as error:  # URLError, time-outs and connection errors
+            reason = str(error)
+        print(f"retry {attempt} in {wait_s * attempt:.0f} s: {url} ({reason})")
+        time.sleep(wait_s * attempt)
+    return download(url)  # the last attempt: if it fails too, its error ends the run
 
 
 def write_atomically(path: Path, data: bytes) -> None:
@@ -89,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"MISSING  {path.relative_to(ROOT)}")
             bad += 1
             continue
-        data = download(checked_url(entry["url"]))
+        data = download_with_retries(checked_url(entry["url"]))
         if sha256(data) != entry["sha256"]:
             print(f"REJECTED {entry['filename']}: fingerprint does not match")
             bad += 1
