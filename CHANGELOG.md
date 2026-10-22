@@ -7,6 +7,8 @@
   browser console.
 - The download tool tries again when Mendeley fails for a moment, and CI keeps the raw data
   between runs instead of downloading it on every push.
+- The app runs on Streamlit 1.66.1. It allows Pillow 13, which fixes the known security issues
+  of Pillow 12.3.0 (the app opens no image files, but it shouldn't ship them anyway).
 
 ## [0.1.0] - 2026-10-20
 
