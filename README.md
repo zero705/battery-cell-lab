@@ -9,7 +9,8 @@ public test data of McMaster University. I fitted an equivalent circuit model to
 tests and then checked it on 62 drive-cycle tests from -20 to 40 °C that it never saw while
 fitting. You give it a current and a temperature, and it gives you the voltage, the charge left
 and the heat. You can also drive it with a car's power demand and see how much energy the cell
-gives before it can't keep up. There is a Streamlit app to try all of this.
+gives before it can't keep up. You can try all of this in the [Streamlit app][app], right in the
+browser.
 
 ![Measured and modelled voltage for LA92 at 25 °C and UDDS at -20 °C, with the error below each](docs/images/validation.png)
 
@@ -99,6 +100,9 @@ data matter for the model: in the cold the lab limited the current (see above), 
 the cell gave less charge than at 25 °C. All of this is in [docs/data.md](docs/data.md).
 
 ## The app
+
+You can [open it in the browser][app]. If nobody has used it for a while, it takes a little
+time to wake up. To run it on your own computer:
 
 ```bash
 git clone https://github.com/zero705/battery-cell-lab.git
@@ -210,3 +214,5 @@ The code is under the [MIT license](LICENSE).
 
 [GitHub](https://github.com/zero705) ·
 [LinkedIn](https://www.linkedin.com/in/%C3%B6mer-faruk-%C5%9Fenol-2778a63b5/)
+
+[app]: https://battery-cell-lab-guwyfrt8upsmnfgzss7qr4.streamlit.app

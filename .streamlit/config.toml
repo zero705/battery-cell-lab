@@ -3,6 +3,11 @@
 base = "light"
 primaryColor = "#1f4e9c"
 
+[theme.sidebar]
+# Streamlit's default text colour, so nothing changes on screen. If it's left empty, Streamlit
+# 1.65 writes a warning to the browser console on every run.
+textColor = "#31333F"
+
 [client]
 # Visitors see the app, not the developer menu.
 toolbarMode = "viewer"
