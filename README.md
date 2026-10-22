@@ -215,4 +215,4 @@ The code is under the [MIT license](LICENSE).
 [GitHub](https://github.com/zero705) ·
 [LinkedIn](https://www.linkedin.com/in/%C3%B6mer-faruk-%C5%9Fenol-2778a63b5/)
 
-[app]: https://battery-cell-lab-guwyfrt8upsmnfgzss7qr4.streamlit.app
+[app]: https://battery-cell-lab.streamlit.app
